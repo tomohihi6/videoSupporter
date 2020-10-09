@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 </head>
 
-<body>
+<body onload="draw();">
 <div id="main">
     <header>
         タイトル
@@ -38,7 +38,7 @@
                     サイドです
                 </div>
                 <div id="timeline-header-ruler">
-                    定規です
+                    <canvas id="canvas"></canvas>
                 </div>
             </div>
             <div id="timeline-body">

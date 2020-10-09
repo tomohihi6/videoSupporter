@@ -5,6 +5,8 @@
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="./main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 </head>
 
 <body>
@@ -44,11 +46,22 @@
                     サイドです
                 </div>
                 <div id="timeline-body-layer">
-    
+                    レイヤーです
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const option = {
+        mode:"javascript", // 言語を設定する
+        lineNumbers: true,　 // 行番号を表示する
+        lineWrapping: true,　 // 行を折り返す
+        autoCloseBrackets: true,
+    }
+
+    let editor = CodeMirror.fromTextArea(document.getElementById("source-edit-area"),option);
+    editor.setSize('100%', '100%')
+</script>
 </body>
 </html>

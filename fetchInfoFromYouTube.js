@@ -16,11 +16,6 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function getDuration() {
-    const duration = player.getDuration();
-    console.log(duration);
-}
-
 // function onPlayerReady(event) {
 //   event.target.playVideo();
 // }

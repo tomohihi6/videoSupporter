@@ -46,7 +46,7 @@ body {
     display: flex;
 }
 
-#video iframe {
+#player {
     position: absolute;
     top: 0;
     left: 0;

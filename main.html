@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
@@ -18,9 +19,7 @@
         <div id="video-source-container">
             <div id="video-container">
                 <div id="video">
-                    <iframe id="ytplayer" type="text/html" width="640" height="360"
-                        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
-                        frameborder="0"></iframe>
+                    <div id="player"></div>
                 </div>
             </div>
             <div id="source-container">

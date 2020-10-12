@@ -1,7 +1,7 @@
 async function draw(){
     const time_x_variable = 70; //時間をどのくらい移動させたらいい感じの場所になるか
-    const videoDuration = await player.getDuration();
-    const canvas = setCanvas(videoDuration);
+    const videoDuration = await player.getDuration(); //動画の再生時間を取得
+    const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
         const ctx = canvas.getContext("2d");
 
@@ -17,7 +17,7 @@ async function draw(){
             minutes: 0,
             seconds: -1,
         }
-
+        seekVideo(canvas);
         for(let i = 0; i < videoDuration; i++) {
             let lineHeight = 10;
             time.seconds ++;
@@ -60,7 +60,7 @@ function setCanvas(vD) {
     console.log(`vd = ${vD}`)
     const canvas = document.getElementById("canvas");
     const ruler = document.getElementById('timeline-header-ruler');
-    const w = vD * 7 + 7;
+    const w = vD * 7 + 30;
     const h = ruler.clientHeight;
     canvas.setAttribute("width", w);
     canvas.setAttribute("height", h);
@@ -71,4 +71,19 @@ function timeConvert(seconds) {
     const min = (('00') + Math.floor((seconds / 60) % 60)).slice(-2);
     const sec = (('00') + Math.floor(seconds % 60)).slice(-2);
     return min + ":" + sec;
+}
+
+function seekVideo(canvas) {
+    canvas.onclick = (e) => {
+        const rect = e.target.getBoundingClientRect();
+        mouseX = e.clientX - Math.floor(rect.left) - 8;
+        mouseY = e.clientY - Math.floor(rect.top) - 2;
+        console.log(`mouseX is ${mouseX}`)
+        console.log(`mouseY is ${mouseY}`)
+        //x=8が0秒 +-2seek判定 次の棒7座標
+        if(mouseX % 7 >= 0 && mouseX % 7 <= 4) {
+            const seekTime = mouseX / 7;
+            player.seekTo(seekTime);
+        }
+    }
 }

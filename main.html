@@ -3,37 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
-<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="./css/main.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="./main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 </head>
 
-<body>
-<header>
-    <h1>サイト内におけるタイトル</h1>
-</header>
-<div id="branding">
-  <p>Simple Design.</p>
+<body onload="draw();">
+<div id="main">
+    <header>
+        タイトル
+    </header>
+    <div id="container">
+        <div id="video-source-container">
+            <div id="video-container">
+                <div id="video">
+                    <iframe id="ytplayer" type="text/html" width="640" height="360"
+                        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+                        frameborder="0"></iframe>
+                </div>
+            </div>
+            <div id="source-container">
+                <div id="source-name" class="name">
+                    main source
+                </div>
+                <div id="source">
+                    <textarea name="" id="source-edit-area" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+        <div id="timeline-container">
+            <div id="timeline-header">
+                <div id="timeline-header-side">
+                    サイドです
+                </div>
+                <div id="timeline-header-ruler">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+            <div id="timeline-body">
+                <div id="timeline-body-side">
+                    サイドです
+                </div>
+                <div id="timeline-body-layer">
+                    レイヤーです
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<nav>
-  <ul>
-    <li><a href="#">ナビ1</a></li>
-    <li><a href="#">ナビ2</a></li>
-    <li><a href="#">ナビ3</a></li>
-    <li><a href="#">ナビ4</a></li>
-  </ul>
-</nav>
-<section>
-<article>
-  <span class="date">ここに日付</span>
-  <h2>ここにタイトル</h2>
-  <p>
-   ここにテキスト
-  </p>
-  <a href="#" class="btn">&gt;もっと見る</a>
-</article>
-</section>
-<footer>
-<address>Copyright(C)ここに年 個人名or会社名,Allright Reserved.</address>
-</footer>
+<script>
+    const option = {
+        mode:"javascript", // 言語を設定する
+        lineNumbers: true,　 // 行番号を表示する
+        lineWrapping: true,　 // 行を折り返す
+        autoCloseBrackets: true,
+    }
+
+    let editor = CodeMirror.fromTextArea(document.getElementById("source-edit-area"),option);
+    editor.setSize('100%', '100%')
+</script>
 </body>
 </html>

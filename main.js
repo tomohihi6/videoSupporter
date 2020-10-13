@@ -1,53 +1,65 @@
 async function draw(){
-    const time_x_variable = 70; //時間をどのくらい移動させたらいい感じの場所になるか
     const videoDuration = await player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
-        const ctx = canvas.getContext("2d");
-
-        const width = canvas.width;
-        const height = canvas.height;
-
-        let x = 10; //数直線のx座標
-        let y = height; //数直線のy座標
-        let time_x = 67;
-        let time_y = 30;
-        
-        let time = {
-            minutes: 0,
-            seconds: -1,
-        }
         seekVideo(canvas);
-        for(let i = 0; i < videoDuration; i++) {
-            let lineHeight = 10;
-            time.seconds ++;
-            if(time.seconds > 59) {
-                time.minutes ++;
-                time.seconds = 0;
-            }
-            if(i % 10 == 0 && i != 0) {
-                const displayTime = createDisplayTime(time);
-                lineHeight = 15;
-                ctx.fillText(displayTime, time_x, time_y);
-                time_x += time_x_variable;
-            }
-            const moveX = x + (i * 7);
-            ctx.beginPath();
-            ctx.moveTo(moveX, y);          // 始点に移動
-            ctx.lineTo(moveX, y - lineHeight);        // 終点
-            ctx.strokeStyle = "Black";  // 線の色
-            ctx.lineWidth = 1;           // 線の太さ
-            ctx.stroke();
-        }
+        drawNumberLine(canvas, videoDuration);
+    }
+}
 
+function drawNumberLine(canvas, videoDuration) {
+    const ctx = canvas.getContext("2d");
+    const width = canvas.width;
+    const height = canvas.height;
+    let x = 10; //数直線のx座標
+    let y = height; //数直線のy座標
+    // 数直線の時間に関するオブジェクト
+    let time = {　
+        minutes: 0,
+        seconds: -1,
+        x: 0,
+        y: 10,
+    }
+
+    let lineWidth; //線の間隔
+    //数直線を引き延ばすかどうかの判定 canvasの長さが動画時間より長い時に
+    if(canvas.clientWidth > videoDuration * 7) {
+        lineWidth = (canvas.clientWidth - 30) / videoDuration;
+        time.x = lineWidth * 10 - 3;
+    } else {
+        lineWidth = 7;
+        time.x = lineWidth * 10 - 3;
+    }
+    const time_x_width = lineWidth * 10; //数直線の時間の間隔
+
+    for(let i = 0; i < videoDuration; i++) {
+        let lineHeight = 10;
+        time.seconds ++;
+        if(time.seconds > 59) {
+            time.minutes ++;
+            time.seconds = 0;
+        }
+        if(i % 10 == 0 && i != 0) {
+            const displayTime = createDisplayTime(time);
+            lineHeight = 15;
+            ctx.fillText(displayTime, time.x, time.y);
+            time.x += time_x_width;
+        }
+        const moveX = x + (i * lineWidth);
         ctx.beginPath();
-        ctx.moveTo(x, height);
-        ctx.lineTo(width, y);
+        ctx.moveTo(moveX, y);          // 始点に移動
+        ctx.lineTo(moveX, y - lineHeight);        // 終点
         ctx.strokeStyle = "Black";  // 線の色
         ctx.lineWidth = 1;           // 線の太さ
         ctx.stroke();
+    }
 
-  }
+    ctx.beginPath();
+    ctx.moveTo(x, height);
+    ctx.lineTo(width, y);
+    ctx.strokeStyle = "Black";  // 線の色
+    ctx.lineWidth = 1;           // 線の太さ
+    ctx.stroke();
 }
 
 function createDisplayTime(time) {
@@ -57,10 +69,9 @@ function createDisplayTime(time) {
 }
 
 function setCanvas(vD) {
-    console.log(`vd = ${vD}`)
     const canvas = document.getElementById("canvas");
     const ruler = document.getElementById('timeline-header-ruler');
-    const w = vD * 7 + 30;
+    const w = (ruler.clientWidth > (vD * 7)) ? ruler.clientWidth : vD * 7 + 30;
     const h = ruler.clientHeight;
     canvas.setAttribute("width", w);
     canvas.setAttribute("height", h);
@@ -81,7 +92,8 @@ function seekVideo(canvas) {
         console.log(`mouseX is ${mouseX}`)
         console.log(`mouseY is ${mouseY}`)
         //x=8が0秒 +-2seek判定 次の棒7座標
-        if(mouseX % 7 >= 0 && mouseX % 7 <= 4) {
+        if(mouseX % 7 >= -3 && mouseX % 7 <= 4) {
+            
             const seekTime = mouseX / 7;
             player.seekTo(seekTime);
         }

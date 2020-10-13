@@ -2,7 +2,6 @@ async function draw(){
     const videoDuration = await player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
-        seekVideo(canvas);
         drawNumberLine(canvas, videoDuration);
     }
 }
@@ -84,18 +83,30 @@ function timeConvert(seconds) {
     return min + ":" + sec;
 }
 
-function seekVideo(canvas) {
-    canvas.onclick = (e) => {
-        const rect = e.target.getBoundingClientRect();
-        mouseX = e.clientX - Math.floor(rect.left) - 8;
-        mouseY = e.clientY - Math.floor(rect.top) - 2;
-        console.log(`mouseX is ${mouseX}`)
-        console.log(`mouseY is ${mouseY}`)
-        //x=8が0秒 +-2seek判定 次の棒7座標
-        if(mouseX % 7 >= -3 && mouseX % 7 <= 4) {
-            
-            const seekTime = mouseX / 7;
-            player.seekTo(seekTime);
-        }
+function seekVideo(e) {
+    const rect = e.target.getBoundingClientRect();
+    mouseX = e.clientX - Math.floor(rect.left) - 8;
+    mouseY = e.clientY - Math.floor(rect.top) - 2;
+    console.log(`mouseX is ${mouseX}`)
+    console.log(`mouseY is ${mouseY}`)
+    //x=8が0秒 +-2seek判定 次の棒7座標
+    if(mouseX % 7 >= -3 && mouseX % 7 <= 4) {
+        const seekTime = mouseX / 7;
+        player.seekTo(seekTime);
     }
+    
+}
+
+function moveHandle(e) {
+    const handle = document.getElementById("time-line-handle");
+    console.log(handle.style.left)
+    const width = handle.clientWidth;
+    const height = handle.clientHeight;
+    const rect = e.target.getBoundingClientRect();
+    mouseX = e.clientX - Math.floor(rect.left) - 2;
+    mouseY = e.clientY - Math.floor(rect.top) - 2;
+    console.log(`mouseX is ${mouseX}`)
+    console.log(`mouseY is ${mouseY}`)
+    //x=8が0秒 +-2seek判定 次の棒7座標
+    handle.style.left = mouseX - width / 2 + "px"
 }

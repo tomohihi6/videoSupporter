@@ -105,7 +105,7 @@ body {
   }
 
 #canvas {
-
+    position: absolute;
 }
 
 #timeline-body {
@@ -122,4 +122,13 @@ body {
 
 #timeline-body-layer {
     flex: 8;
+}
+
+#time-line-handle {
+    z-index: 10;
+    position: relative;
+    width: 50px;
+    height: 30px;
+    margin: 0;
+    background-color: rgba(0, 255, 255, 0.473);
 }

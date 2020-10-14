@@ -98,6 +98,7 @@ body {
     max-width:100%;
     max-height:100%;
     overflow-x: scroll;
+    position: relative;
 }
 
 #timeline-header-ruler::-webkit-scrollbar {
@@ -105,7 +106,7 @@ body {
   }
 
 #canvas {
-    position: absolute;
+
 }
 
 #timeline-body {
@@ -126,7 +127,7 @@ body {
 
 #time-line-handle {
     z-index: 10;
-    position: relative;
+    position: absolute;
     width: 50px;
     height: 30px;
     margin: 0;

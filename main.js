@@ -100,7 +100,8 @@ function moveHandle(mouseX) {
     const time = document.getElementById("handle-time");
     const width = handle.clientWidth;
     const height = handle.clientHeight;
-    handle.style.left = mouseX - width / 2 + 6 + "px"
+    handle.style.left = mouseX - width / 2 + 7 + "px"
     const displayTime = timeConvert(mouseX / 7);
     time.innerHTML = String(displayTime);
+    console.log(handle.style.left)
 }

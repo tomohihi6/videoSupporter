@@ -8,6 +8,8 @@
 <script type="text/javascript" src="./main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/addon/edit/closebrackets.min.js"></script>
 </head>
 
 <body onload="draw();">
@@ -39,7 +41,7 @@
                 <div id="timeline-header-ruler">
                     <canvas id="canvas"></canvas>
                     <div id="time-line-handle"  style="top: 0px; left: 0px;">
-                        <div>00:00</div>
+                        <div id="handle-time">00:00</div>
                     </div>
                 </div>
             </div>
@@ -58,7 +60,6 @@
     const canvas = document.getElementById("canvas");
     canvas.onmousedown = (e => {
         seekVideo(e);
-        moveHandle(e);
     })
 
     const option = {

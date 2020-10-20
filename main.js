@@ -85,8 +85,9 @@ function timeConvert(seconds) {
 
 function seekVideo(e) {
     const rect = document.getElementById('canvas').getBoundingClientRect();
-    mouseX = e.clientX - Math.floor(rect.left) - 8;
-    mouseY = e.clientY - Math.floor(rect.top) - 2;
+    const mouseX = e.clientX - Math.floor(rect.left) - 8;
+    const mouseY = e.clientY - Math.floor(rect.top) - 2;
+    console.log(rect.left)
     console.log(`mouseX is ${mouseX}`)
     console.log(`mouseY is ${mouseY}`)
     //x=8が0秒 +-2seek判定 次の棒15座標
@@ -108,11 +109,8 @@ function moveHandle(mouseX) {
 
 function addScriptItem(e) {
     const rect = document.getElementById('canvas').getBoundingClientRect();
-    mouseX = e.clientX - Math.floor(rect.left);
-    mouseY = e.clientY - Math.floor(rect.top) - 2;
-    console.log(e.clientX)
-    console.log("mouseX")
-    console.log(mouseX)
+    const mouseX = e.clientX - Math.floor(rect.left);
+    const mouseY = e.clientY - Math.floor(rect.top) - 2;
     const ruler = document.getElementById('timeline-header-ruler');
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem');
@@ -121,5 +119,16 @@ function addScriptItem(e) {
     scriptItem.style.top = '50px';
     scriptItem.style.width = '50px';
     ruler.appendChild(scriptItem);
+    setDrag();
+}
+
+function setDrag() {
+    $('.scriptItem').draggable({
+        axis: 'x',
+        drag: function(e) {
+            const rect = document.getElementById('canvas').getBoundingClientRect();
+            mouseX = e.clientX - Math.floor(rect.left);
+        }
+    })
 }
 

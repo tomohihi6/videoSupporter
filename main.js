@@ -105,3 +105,18 @@ function moveHandle(mouseX) {
     time.innerHTML = String(displayTime);
     console.log(handle.style.left)
 }
+
+function addScriptItem(e) {
+    const rect = e.target.getBoundingClientRect();
+    mouseX = e.clientX - Math.floor(rect.left);
+    mouseY = e.clientY - Math.floor(rect.top) - 2;
+    const ruler = document.getElementById('timeline-header-ruler');
+    const scriptItem = document.createElement('textarea');
+    scriptItem.setAttribute('class', 'scriptItem');
+    scriptItem.style.position = 'absolute';
+    scriptItem.style.left = mouseX + 'px';
+    scriptItem.style.top = '52px';
+    scriptItem.style.width = '50px';
+    scriptItem.style.height = '70%';
+    ruler.appendChild(scriptItem);
+}

@@ -39,9 +39,10 @@
                     <canvas id="canvas"></canvas>
                     <div id="time-line-handle"  style="top: 0px; left: 0px;">
                         <div id="handle-time">00:00</div>
-                        <div id="stick"></div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -50,6 +51,9 @@
     const canvas = document.getElementById("canvas");
     canvas.onmousedown = (e => {
         seekVideo(e);
+    });
+    canvas.ondblclick = (e => {
+        addScriptItem(e);
     })
 
     const option = {

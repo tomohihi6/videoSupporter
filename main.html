@@ -8,6 +8,8 @@
 <script type="text/javascript" src="./main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/addon/edit/closebrackets.min.js"></script>
 </head>
 
 <body onload="draw();">
@@ -32,26 +34,24 @@
             </div>
         </div>
         <div id="timeline-container">
-            <div id="timeline-header">
-                <div id="timeline-header-side">
-                    サイドです
-                </div>
+            <div id="timeline-body">
                 <div id="timeline-header-ruler">
                     <canvas id="canvas"></canvas>
-                </div>
-            </div>
-            <div id="timeline-body">
-                <div id="timeline-body-side">
-                    サイドです
-                </div>
-                <div id="timeline-body-layer">
-                    レイヤーです
+                    <div id="time-line-handle"  style="top: 0px; left: 0px;">
+                        <div id="handle-time">00:00</div>
+                        <div id="stick"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    const canvas = document.getElementById("canvas");
+    canvas.onmousedown = (e => {
+        seekVideo(e);
+    })
+
     const option = {
         mode:"javascript", // 言語を設定する
         lineNumbers: true,　 // 行番号を表示する

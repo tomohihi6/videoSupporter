@@ -2,7 +2,6 @@ async function draw(){
     const videoDuration = await player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
-        seekVideo(canvas);
         drawNumberLine(canvas, videoDuration);
     }
 }
@@ -10,7 +9,7 @@ async function draw(){
 function drawNumberLine(canvas, videoDuration) {
     const ctx = canvas.getContext("2d");
     const width = canvas.width;
-    const height = canvas.height;
+    const height = 50;
     let x = 10; //数直線のx座標
     let y = height; //数直線のy座標
     // 数直線の時間に関するオブジェクト
@@ -84,18 +83,25 @@ function timeConvert(seconds) {
     return min + ":" + sec;
 }
 
-function seekVideo(canvas) {
-    canvas.onclick = (e) => {
-        const rect = e.target.getBoundingClientRect();
-        mouseX = e.clientX - Math.floor(rect.left) - 8;
-        mouseY = e.clientY - Math.floor(rect.top) - 2;
-        console.log(`mouseX is ${mouseX}`)
-        console.log(`mouseY is ${mouseY}`)
-        //x=8が0秒 +-2seek判定 次の棒7座標
-        if(mouseX % 7 >= -3 && mouseX % 7 <= 4) {
-            
-            const seekTime = mouseX / 7;
-            player.seekTo(seekTime);
-        }
-    }
+function seekVideo(e) {
+    const rect = e.target.getBoundingClientRect();
+    mouseX = e.clientX - Math.floor(rect.left) - 8;
+    mouseY = e.clientY - Math.floor(rect.top) - 2;
+    console.log(`mouseX is ${mouseX}`)
+    console.log(`mouseY is ${mouseY}`)
+    //x=8が0秒 +-2seek判定 次の棒7座標
+    const seekTime = mouseX / 7;
+    player.seekTo(seekTime);
+    moveHandle(mouseX);
+}
+
+function moveHandle(mouseX) {
+    const handle = document.getElementById("time-line-handle");
+    const time = document.getElementById("handle-time");
+    const width = handle.clientWidth;
+    const height = handle.clientHeight;
+    handle.style.left = mouseX - width / 2 + 7 + "px"
+    const displayTime = timeConvert(mouseX / 7);
+    time.innerHTML = String(displayTime);
+    console.log(handle.style.left)
 }

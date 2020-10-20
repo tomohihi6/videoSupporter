@@ -1,5 +1,5 @@
 async function draw(){
-    const videoDuration = await player.getDuration(); //動画の再生時間を取得
+    const videoDuration = player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
         drawNumberLine(canvas, videoDuration);
@@ -22,11 +22,11 @@ function drawNumberLine(canvas, videoDuration) {
 
     let lineWidth; //線の間隔
     //数直線を引き延ばすかどうかの判定 canvasの長さが動画時間より長い時に
-    if(canvas.clientWidth > videoDuration * 7) {
+    if(canvas.clientWidth > videoDuration * 15) {
         lineWidth = (canvas.clientWidth - 30) / videoDuration;
         time.x = lineWidth * 10 - 3;
     } else {
-        lineWidth = 7;
+        lineWidth = 15;
         time.x = lineWidth * 10 - 3;
     }
     const time_x_width = lineWidth * 10; //数直線の時間の間隔
@@ -70,7 +70,7 @@ function createDisplayTime(time) {
 function setCanvas(vD) {
     const canvas = document.getElementById("canvas");
     const ruler = document.getElementById('timeline-header-ruler');
-    const w = (ruler.clientWidth > (vD * 7)) ? ruler.clientWidth : vD * 7 + 30;
+    const w = (ruler.clientWidth > (vD * 15)) ? ruler.clientWidth : vD * 15 + 30;
     const h = ruler.clientHeight;
     canvas.setAttribute("width", w);
     canvas.setAttribute("height", h);
@@ -84,13 +84,13 @@ function timeConvert(seconds) {
 }
 
 function seekVideo(e) {
-    const rect = e.target.getBoundingClientRect();
+    const rect = document.getElementById('canvas').getBoundingClientRect();
     mouseX = e.clientX - Math.floor(rect.left) - 8;
     mouseY = e.clientY - Math.floor(rect.top) - 2;
     console.log(`mouseX is ${mouseX}`)
     console.log(`mouseY is ${mouseY}`)
-    //x=8が0秒 +-2seek判定 次の棒7座標
-    const seekTime = mouseX / 7;
+    //x=8が0秒 +-2seek判定 次の棒15座標
+    const seekTime = mouseX / 15;
     player.seekTo(seekTime);
     moveHandle(mouseX);
 }
@@ -101,22 +101,25 @@ function moveHandle(mouseX) {
     const width = handle.clientWidth;
     const height = handle.clientHeight;
     handle.style.left = mouseX - width / 2 + 7 + "px"
-    const displayTime = timeConvert(mouseX / 7);
+    const displayTime = timeConvert(mouseX / 15);
     time.innerHTML = String(displayTime);
     console.log(handle.style.left)
 }
 
 function addScriptItem(e) {
-    const rect = e.target.getBoundingClientRect();
+    const rect = document.getElementById('canvas').getBoundingClientRect();
     mouseX = e.clientX - Math.floor(rect.left);
     mouseY = e.clientY - Math.floor(rect.top) - 2;
+    console.log(e.clientX)
+    console.log("mouseX")
+    console.log(mouseX)
     const ruler = document.getElementById('timeline-header-ruler');
-    const scriptItem = document.createElement('textarea');
+    const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem');
     scriptItem.style.position = 'absolute';
     scriptItem.style.left = mouseX + 'px';
-    scriptItem.style.top = '52px';
+    scriptItem.style.top = '50px';
     scriptItem.style.width = '50px';
-    scriptItem.style.height = '70%';
     ruler.appendChild(scriptItem);
 }
+

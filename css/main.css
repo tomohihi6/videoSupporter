@@ -129,7 +129,6 @@ body {
 
 #time-line-handle {
     position: absolute;
-    z-index: -1;
     width: 2px;
     height: 300px;
     margin: 0;
@@ -153,4 +152,11 @@ body {
     width: 100%;
     margin-left: 1vh;
     border-bottom: solid 1px;
+}
+
+.scriptItem {
+    resize: horizontal;
+    width: 50px;
+    height: 10%;
+    background-color: darkcyan;
 }

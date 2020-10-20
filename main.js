@@ -9,7 +9,7 @@ async function draw(){
 function drawNumberLine(canvas, videoDuration) {
     const ctx = canvas.getContext("2d");
     const width = canvas.width;
-    const height = canvas.height;
+    const height = 50;
     let x = 10; //数直線のx座標
     let y = height; //数直線のy座標
     // 数直線の時間に関するオブジェクト

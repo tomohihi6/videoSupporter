@@ -1,4 +1,6 @@
-async function draw(){
+let lineWidth;
+console.log(lineWidth);
+function draw(){
     const videoDuration = player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
     if (canvas.getContext) {
@@ -20,10 +22,9 @@ function drawNumberLine(canvas, videoDuration) {
         y: 10,
     }
 
-    let lineWidth; //線の間隔
     //数直線を引き延ばすかどうかの判定 canvasの長さが動画時間より長い時に
     if(canvas.clientWidth > videoDuration * 15) {
-        lineWidth = (canvas.clientWidth - 30) / videoDuration;
+        lineWidth = (canvas.clientWidth) / videoDuration;
         time.x = lineWidth * 10 - 3;
     } else {
         lineWidth = 15;
@@ -91,7 +92,7 @@ function seekVideo(e) {
     console.log(`mouseX is ${mouseX}`)
     console.log(`mouseY is ${mouseY}`)
     //x=8が0秒 +-2seek判定 次の棒15座標
-    const seekTime = mouseX / 15;
+    const seekTime = mouseX / lineWidth;
     player.seekTo(seekTime);
     moveHandle(mouseX);
 }
@@ -102,7 +103,7 @@ function moveHandle(mouseX) {
     const width = handle.clientWidth;
     const height = handle.clientHeight;
     handle.style.left = mouseX - width / 2 + 7 + "px"
-    const displayTime = timeConvert(mouseX / 15);
+    const displayTime = timeConvert(mouseX / lineWidth);
     time.innerHTML = String(displayTime);
     console.log(handle.style.left)
 }
@@ -114,7 +115,9 @@ function addScriptItem(e) {
     const ruler = document.getElementById('timeline-header-ruler');
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem');
+    scriptItem.setAttribute('value', 'unti')
     scriptItem.style.position = 'absolute';
+    scriptItem.innerText = 'watya tarou'
     scriptItem.style.left = mouseX + 'px';
     scriptItem.style.top = '50px';
     scriptItem.style.width = '50px';

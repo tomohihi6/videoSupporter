@@ -7,32 +7,18 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
-<script type="text/javascript" src="./main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/addon/edit/closebrackets.min.js"></script>
+<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
+<script type="text/javascript" src="./main.js"></script>
 <script>
-
-$(function() {
-    $('#time-line-handle').draggable({
-        axis: 'x',
-        containment: '#timeline-header-ruler',
-        drag: function (e, ui) {
-            seekVideo(e)
-        }
-    });
-
-})
 </script>
 </head>
 
-<body onload="draw();">
+<body>
 <div id="main">
-    <header>
-        タイトル
-    </header>
     <div id="container">
         <div id="video-source-container">
             <div id="video-container">
@@ -66,6 +52,7 @@ $(function() {
 <script>
     const canvas = document.getElementById("canvas");
     const handle = document.getElementById("time-line-handle");
+    
     canvas.onmousedown = (e => {
         seekVideo(e);
     });

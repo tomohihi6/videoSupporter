@@ -10,15 +10,15 @@ function onYouTubeIframeAPIReady() {
         width: '640',
         videoId: 'M7lc1UVf-VE',
         events: {
-            // 'onReady': onPlayerReady,
+            'onReady': onPlayerReady,
             // 'onStateChange': onPlayerStateChange
         }
     });
 }
 
-// function onPlayerReady(event) {
-//   event.target.playVideo();
-// }
+function onPlayerReady(event) {
+    draw();
+}
 
 
 

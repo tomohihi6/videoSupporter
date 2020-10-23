@@ -14,6 +14,15 @@
 <script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <script>
+    $(function() {
+        $('#time-line-handle').draggable({
+            axis: 'x',
+            containment: '#timeline-header-ruler',
+            drag: function (e, ui) {
+                seekVideo(e)
+            }
+        });
+    })
 </script>
 </head>
 
@@ -52,6 +61,7 @@
 <script>
     const canvas = document.getElementById("canvas");
     const handle = document.getElementById("time-line-handle");
+    const scriptItem = document.getElementsByClassName('scriptItem');
     
     canvas.onmousedown = (e => {
         seekVideo(e);

@@ -102,7 +102,6 @@ function moveHandle(mouseX) {
     handle.style.left = mouseX - width / 2 + 7 + "px"
     const displayTime = timeConvert(mouseX / lineWidth);
     time.innerHTML = String(displayTime);
-    console.log(handle.style.left)
 }
 
 function addScriptItem(e) {
@@ -127,13 +126,20 @@ function setDrag() {
     $('.scriptItem').draggable({
         axis: 'x',
         drag: function(e) {
-        }
+        },
+        stop: function(e) {
+            const rect = e.target.getBoundingClientRect();
+            const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+            const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
+            e.target.innerText = "00:" +  startTime + ",000";
+        },
     })
 }
 
+
 function getMouseOnCanvas(e) {
     const rect = document.getElementById('canvas').getBoundingClientRect();
-    console.log(e.clientX);
+    console.log(`e.clientX = ${e.clientX}`);
     const mouse = {
         x : e.clientX - Math.floor(rect.left),
         y : e.clientY - Math.floor(rect.top),

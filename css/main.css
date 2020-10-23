@@ -124,7 +124,7 @@ body {
 
 #time-line-handle {
     position: absolute;
-    width: 2px;
+    width: 3px;
     height: 100%;
     margin: 0;
     background-color: rgba(0, 255, 255, 0.473);

@@ -1,4 +1,5 @@
 let lineWidth;
+const adjCanvasX = 8;
 console.log(lineWidth);
 function draw(){
     const videoDuration = player.getDuration(); //動画の再生時間を取得
@@ -40,7 +41,7 @@ function drawNumberLine(canvas, videoDuration) {
             time.seconds = 0;
         }
         if(i % 10 == 0 && i != 0) {
-            const displayTime = createDisplayTime(time);
+            const displayTime = getDisplayTime(time);
             lineHeight = 15;
             ctx.fillText(displayTime, time.x, time.y);
             time.x += time_x_width;
@@ -62,7 +63,7 @@ function drawNumberLine(canvas, videoDuration) {
     ctx.stroke();
 }
 
-function createDisplayTime(time) {
+function getDisplayTime(time) {
     const displayTime = ("00" + time.minutes).slice(-2) + ":" + ("00" + time.seconds).slice(-2);
 
     return displayTime;
@@ -85,16 +86,12 @@ function timeConvert(seconds) {
 }
 
 function seekVideo(e) {
-    const rect = document.getElementById('canvas').getBoundingClientRect();
-    const mouseX = e.clientX - Math.floor(rect.left) - 8;
-    const mouseY = e.clientY - Math.floor(rect.top) - 2;
-    console.log(rect.left)
-    console.log(`mouseX is ${mouseX}`)
-    console.log(`mouseY is ${mouseY}`)
+    let mouse = getMouseOnCanvas(e);
+    mouse.x -= adjCanvasX;
     //x=8が0秒 +-2seek判定 次の棒15座標
-    const seekTime = mouseX / lineWidth;
+    const seekTime = (mouse.x) / lineWidth;
     player.seekTo(seekTime);
-    moveHandle(mouseX);
+    moveHandle(mouse.x);
 }
 
 function moveHandle(mouseX) {
@@ -109,16 +106,17 @@ function moveHandle(mouseX) {
 }
 
 function addScriptItem(e) {
-    const rect = document.getElementById('canvas').getBoundingClientRect();
-    const mouseX = e.clientX - Math.floor(rect.left);
-    const mouseY = e.clientY - Math.floor(rect.top) - 2;
+    const mouse = getMouseOnCanvas(e);
+    // キャンバス上でずれるx座標の調整
+    const canvasMouseX = mouse.x - adjCanvasX;
+    // srt.js記述する開始時間
+    const startTime = timeConvert(canvasMouseX / lineWidth);
     const ruler = document.getElementById('timeline-header-ruler');
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem');
-    scriptItem.setAttribute('value', 'unti')
+    scriptItem.innerText =  "00:" +  startTime + ",000";
     scriptItem.style.position = 'absolute';
-    scriptItem.innerText = 'watya tarou'
-    scriptItem.style.left = mouseX + 'px';
+    scriptItem.style.left = mouse.x + 'px';
     scriptItem.style.top = '50px';
     scriptItem.style.width = '50px';
     ruler.appendChild(scriptItem);
@@ -129,9 +127,16 @@ function setDrag() {
     $('.scriptItem').draggable({
         axis: 'x',
         drag: function(e) {
-            const rect = document.getElementById('canvas').getBoundingClientRect();
-            mouseX = e.clientX - Math.floor(rect.left);
         }
     })
 }
 
+function getMouseOnCanvas(e) {
+    const rect = document.getElementById('canvas').getBoundingClientRect();
+    console.log(e.clientX);
+    const mouse = {
+        x : e.clientX - Math.floor(rect.left),
+        y : e.clientY - Math.floor(rect.top),
+    }
+    return mouse;
+}

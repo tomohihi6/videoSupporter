@@ -112,7 +112,7 @@ function addScriptItem(e) {
     const startTime = timeConvert(canvasMouseX / lineWidth);
     const ruler = document.getElementById('timeline-header-ruler');
     const scriptItem = document.createElement('div');
-    scriptItem.setAttribute('class', 'scriptItem');
+    scriptItem.setAttribute('class', 'scriptItem ui-selectee');
     scriptItem.innerText =  "00:" +  startTime + ",000";
     scriptItem.style.position = 'absolute';
     scriptItem.style.left = mouse.x + 'px';
@@ -120,20 +120,34 @@ function addScriptItem(e) {
     scriptItem.style.width = '50px';
     ruler.appendChild(scriptItem);
     setDrag();
+    setResize();
 }
 
 function setDrag() {
+    const canvasRect = document.getElementById('canvas').getBoundingClientRect();
     $('.scriptItem').draggable({
         axis: 'x',
         drag: function(e) {
-        },
-        stop: function(e) {
             const rect = e.target.getBoundingClientRect();
-            const canvasRect = document.getElementById('canvas').getBoundingClientRect();
             const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
             e.target.innerText = "00:" +  startTime + ",000";
         },
+        stop: function(e) {
+            $(this).resizable('destroy');
+            setResize();
+        }
     })
+}
+
+function setResize() {
+    $('.scriptItem').resizable({
+        // Handles left right and bottom right corner
+        handles: 'e, w, se',
+        // Remove height style
+        resize: function(event, ui) {
+            $(this).css("height", '');
+        }
+    });
 }
 
 

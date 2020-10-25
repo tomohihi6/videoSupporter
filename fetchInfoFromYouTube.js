@@ -19,6 +19,3 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
     draw();
 }
-
-
-

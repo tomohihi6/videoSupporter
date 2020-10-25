@@ -1,5 +1,6 @@
 let lineWidth;
 const adjCanvasX = 8;
+const scriptItemInitWidth = 45;
 console.log(lineWidth);
 function draw(){
     const videoDuration = player.getDuration(); //動画の再生時間を取得
@@ -110,27 +111,26 @@ function addScriptItem(e) {
     const canvasMouseX = mouse.x - adjCanvasX;
     // srt.js記述する開始時間
     const startTime = timeConvert(canvasMouseX / lineWidth);
+    const endTime = timeConvert((canvasMouseX + scriptItemInitWidth) / lineWidth)
     const ruler = document.getElementById('timeline-header-ruler');
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem ui-selectee');
-    scriptItem.innerText =  "00:" +  startTime + ",000";
+    scriptItem.innerText =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
     scriptItem.style.position = 'absolute';
     scriptItem.style.left = mouse.x + 'px';
     scriptItem.style.top = '50px';
-    scriptItem.style.width = '50px';
+    scriptItem.style.width = scriptItemInitWidth + 'px';
     ruler.appendChild(scriptItem);
     setDrag();
     setResize();
 }
 
 function setDrag() {
-    const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+
     $('.scriptItem').draggable({
         axis: 'x',
         drag: function(e) {
-            const rect = e.target.getBoundingClientRect();
-            const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
-            e.target.innerText = "00:" +  startTime + ",000";
+            e.target.innerText = getScriptTime(e)
         },
         stop: function(e) {
             $(this).resizable('destroy');
@@ -144,10 +144,19 @@ function setResize() {
         // Handles left right and bottom right corner
         handles: 'e, w, se',
         // Remove height style
-        resize: function(event, ui) {
+        resize: function(e) {
             $(this).css("height", '');
-        }
+            e.target.innerText = getScriptTime(e);
+        },
     });
+}
+
+function getScriptTime(e) {
+    const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+    const rect = e.target.getBoundingClientRect();
+    const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
+    const endTime = timeConvert((rect.right - canvasRect.left - adjCanvasX) / lineWidth);
+    return "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
 }
 
 

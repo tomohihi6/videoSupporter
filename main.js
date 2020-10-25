@@ -105,14 +105,18 @@ function moveHandle(mouseX) {
     time.innerHTML = String(displayTime);
 }
 
+// srt.js記述用の要素を生成
 function addScriptItem(e) {
     const mouse = getMouseOnCanvas(e);
     // キャンバス上でずれるx座標の調整
     const canvasMouseX = mouse.x - adjCanvasX;
     // srt.js記述する開始時間
     const startTime = timeConvert(canvasMouseX / lineWidth);
-    const endTime = timeConvert((canvasMouseX + scriptItemInitWidth) / lineWidth)
+    // srt.js記述する終了時間
+    const endTime = timeConvert((canvasMouseX + scriptItemInitWidth) / lineWidth);
+    // 親要素
     const ruler = document.getElementById('timeline-header-ruler');
+
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem ui-selectee');
     scriptItem.innerText =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
@@ -121,16 +125,17 @@ function addScriptItem(e) {
     scriptItem.style.top = '50px';
     scriptItem.style.width = scriptItemInitWidth + 'px';
     ruler.appendChild(scriptItem);
+    // ドラッグとリサイズできるように
     setDrag();
     setResize();
 }
 
 function setDrag() {
-
     $('.scriptItem').draggable({
         axis: 'x',
+        containment: '#timeline-body',
         drag: function(e) {
-            e.target.innerText = getScriptTime(e)
+            e.target.innerText = getScriptTime(e);
         },
         stop: function(e) {
             $(this).resizable('destroy');
@@ -143,10 +148,15 @@ function setResize() {
     $('.scriptItem').resizable({
         // Handles left right and bottom right corner
         handles: 'e, w, se',
+        containment: '#timeline-header-ruler',
         // Remove height style
         resize: function(e) {
             $(this).css("height", '');
             e.target.innerText = getScriptTime(e);
+        },
+        stop: function(e) {
+            $(this).resizable('destroy');
+            setResize();
         },
     });
 }
@@ -156,6 +166,8 @@ function getScriptTime(e) {
     const rect = e.target.getBoundingClientRect();
     const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
     const endTime = timeConvert((rect.right - canvasRect.left - adjCanvasX) / lineWidth);
+    player.seekTo((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
+    moveHandle(rect.left - canvasRect.left - adjCanvasX)
     return "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
 }
 

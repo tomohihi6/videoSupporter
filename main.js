@@ -1,7 +1,15 @@
+// 数直線の線間隔
 let lineWidth;
+// canvasのleftの値
 const adjCanvasX = 8;
+// srt.js記述用要素の幅の初期値 ちょうど4秒分になっている．
 const scriptItemInitWidth = 45;
+// srt.js記述用要素を編集しているかどうかの真偽値を格納
+let isEdit = false;
+// 現在編集中のsrt.js記述用要素のDOM情報を格納
+let nowEditing;
 console.log(lineWidth);
+
 function draw(){
     const videoDuration = player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
@@ -80,6 +88,7 @@ function setCanvas(vD) {
     return canvas;
 }
 
+// こっちは数直線に描画するようの時間変換用関数
 function timeConvert(seconds) {
     const min = (('00') + Math.floor((seconds / 60) % 60)).slice(-2);
     const sec = (('00') + Math.floor(seconds % 60)).slice(-2);
@@ -124,6 +133,9 @@ function addScriptItem(e) {
     scriptItem.style.left = mouse.x + 'px';
     scriptItem.style.top = '50px';
     scriptItem.style.width = scriptItemInitWidth + 'px';
+    scriptItem.ondblclick = function() {
+        editSrt(scriptItem);
+    }
     ruler.appendChild(scriptItem);
     // ドラッグとリサイズできるように
     setDrag();
@@ -135,9 +147,11 @@ function setDrag() {
         axis: 'x',
         containment: '#timeline-body',
         drag: function(e) {
+            // innnertextをいじってdivを更新してしまっているため，リサイズができなくなる
             e.target.innerText = getScriptTime(e);
         },
         stop: function(e) {
+            //一度リサイズを削除して，再度セットし直す.
             $(this).resizable('destroy');
             setResize();
         }
@@ -155,12 +169,14 @@ function setResize() {
             e.target.innerText = getScriptTime(e);
         },
         stop: function(e) {
+            // setDrag（）と同様の理由
             $(this).resizable('destroy');
             setResize();
         },
     });
 }
 
+// srt.jsファイル用の時間変換関数
 function getScriptTime(e) {
     const canvasRect = document.getElementById('canvas').getBoundingClientRect();
     const rect = e.target.getBoundingClientRect();
@@ -180,4 +196,16 @@ function getMouseOnCanvas(e) {
         y : e.clientY - Math.floor(rect.top),
     }
     return mouse;
+}
+
+function editSrt(e) {
+    isEdit = true;
+    nowEditing = e;
+    const doc = editor2.getDoc();
+    const tab2 = document.getElementById("tab2");
+    // 記述用タブの切り替え
+    tab2.setAttribute('checked', '');
+    doc.setValue(e.innerText);
+    editor2.focus();
+    return ;
 }

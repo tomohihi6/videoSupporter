@@ -10,6 +10,7 @@ let isEdit = false;
 let nowEditing;
 console.log(lineWidth);
 
+// youtube plyaerの準備ができたら実行する関数
 function draw(){
     const videoDuration = player.getDuration(); //動画の再生時間を取得
     const canvas = setCanvas(videoDuration); //canvasを描画
@@ -18,6 +19,7 @@ function draw(){
     }
 }
 
+// 数直線をひく
 function drawNumberLine(canvas, videoDuration) {
     const ctx = canvas.getContext("2d");
     const width = canvas.width;
@@ -78,9 +80,11 @@ function getDisplayTime(time) {
     return displayTime;
 }
 
+// canvas描画関係
 function setCanvas(vD) {
     const canvas = document.getElementById("canvas");
     const ruler = document.getElementById('timeline-header-ruler');
+    // 数直線の幅が動画時間の関係によってrulerの幅より短くなりそうなら，引き延ばしていい感じの幅にするように
     const w = (ruler.clientWidth > (vD * 15)) ? ruler.clientWidth : vD * 15 + 30;
     const h = ruler.clientHeight;
     canvas.setAttribute("width", w);
@@ -203,9 +207,14 @@ function editSrt(e) {
     nowEditing = e;
     const doc = editor2.getDoc();
     const tab2 = document.getElementById("tab2");
+    tab2.checked = true;
     // 記述用タブの切り替え
-    tab2.setAttribute('checked', '');
     doc.setValue(e.innerText);
     editor2.focus();
     return ;
+}
+
+function saveText() {
+    const value = editor2.getDoc().getValue();
+    nowEditing.innerText = value;
 }

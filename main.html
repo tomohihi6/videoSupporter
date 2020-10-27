@@ -17,7 +17,7 @@
     $(function() {
         $('#time-line-handle').draggable({
             axis: 'x',
-            containment: '#timeline-header-ruler',
+            containment: '#canvas',
             drag: function (e, ui) {
                 seekVideo(e)
             }
@@ -94,18 +94,19 @@
         lineNumbers: true,　 // 行番号を表示する
         lineWrapping: true,　 // 行を折り返す
         autoCloseBrackets: true,
-        tabindex: 0,
     }
 
     let editor = CodeMirror.fromTextArea(document.getElementById("copy-source-area"),option);
     let editor2 = CodeMirror.fromTextArea(document.getElementById("srt-source-area"),option);
     // editor2.on('change', function(e) {
-    //     console.log("changed")
+    //     const value = editor2.getDoc().getValue();
+    //     nowEditing.innerText = value;
+    //     console.log(isEdit)
     // })
-    //.blur = (e => {
-    //     const cm = dofcument.getElementsByClassName('CodeMirror')[1];
-    //     cm.style.border = "solid 0px #ff6a00";
-    // })
+    editor2.on('change', saveText);
+    editor2.on('blur', function(e) {
+        isEdit = false;
+    })
     editor.setSize('100%', '80%');
     editor2.setSize('100%', '80%');
 </script>

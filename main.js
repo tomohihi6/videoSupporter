@@ -214,7 +214,35 @@ function editSrt(e) {
     return ;
 }
 
-function saveText() {
+function saveTextToScriptItem() {
     const value = editor2.getDoc().getValue();
     nowEditing.innerText = value;
+}
+
+function saveScriptToLocalFile() {
+
+}
+
+function gatherTextsFromScriptItems() {
+    // srt.js記述用要素全てを取得
+    let scriptItems = document.getElementsByClassName('scriptItem');
+    // スクリプト記録用変数
+    let texts = ''
+    // このままだとHTMLCollectionとなって配列として扱うことができないので，配列に変換
+    scriptItems = Array.from( scriptItems ) ;
+    // 中身の再生時間が短い順にソート
+    scriptItems.sort(function(a, b) {
+        //要素のleftを取ってきてソート用に比較 pxの文字が邪魔なので取り除いてから数値に変換
+        const rectA = Number(a.style.left.replace('px', ''));
+        const rectB = Number(b.style.left.replace('px', ''));
+        if(rectA < rectB) return -1;
+        else if(rectA > rectB) return 1;
+        return 0;
+    })
+    scriptItems.forEach((e, i) => {
+        texts += i + '\n';
+        texts += e.innerText + '\n\n';
+    })
+    console.log(texts);
+    return texts;
 }

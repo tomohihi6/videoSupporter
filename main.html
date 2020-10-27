@@ -73,6 +73,7 @@
 
             </div>
         </div>
+        <button onclick="gatherTextsFromScriptItems()">save</button>
     </div>
 </div>
 <script>
@@ -103,7 +104,7 @@
     //     nowEditing.innerText = value;
     //     console.log(isEdit)
     // })
-    editor2.on('change', saveText);
+    editor2.on('change', saveTextToScriptItem);
     editor2.on('blur', function(e) {
         isEdit = false;
     })

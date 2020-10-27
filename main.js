@@ -145,7 +145,7 @@ function addScriptItem(e) {
 function setDrag() {
     $('.scriptItem').draggable({
         axis: 'x',
-        containment: '#timeline-body',
+        containment: '#canvas',
         drag: function(e) {
             // innnertextをいじってdivを更新してしまっているため，リサイズができなくなる
             e.target.innerText = getScriptTime(e);
@@ -162,7 +162,7 @@ function setResize() {
     $('.scriptItem').resizable({
         // Handles left right and bottom right corner
         handles: 'e, w, se',
-        containment: '#timeline-header-ruler',
+        containment: '#canvas',
         // Remove height style
         resize: function(e) {
             $(this).css("height", '');

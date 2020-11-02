@@ -5,7 +5,7 @@
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
@@ -65,7 +65,7 @@
             <div id="timeline-body">
                 <div id="timeline-header-ruler">
                     <canvas id="canvas"></canvas>
-                    <div id="time-line-handle" style="top: 0px; left: 0px;">
+                    <div id="time-line-handle" style="top: 0px; left: 8px;">
                         <div id="handle-time">00:00</div>
                     </div>
 
@@ -73,7 +73,7 @@
 
             </div>
         </div>
-        <button onclick="gatherTextsFromScriptItems()">save</button>
+        <button onclick="confirmSaveScript()">save</button>
     </div>
 </div>
 <script>

@@ -15,12 +15,10 @@ body {
 
 #container {
     /* max-width: 1200px; */
-    margin-left: auto;
-    margin-right: auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    margin-top: 2vw;
+    height: 90%;
     width:100%;
     max-width: 1200px;
 }
@@ -29,7 +27,7 @@ body {
     display: flex;
     flex-direction: row;
     height: 100%;
-    flex: 1;
+    flex: 2;
     width: 100%;
 }
 
@@ -73,15 +71,68 @@ body {
     margin-top: 2vw;
 }
 
-#source-edit-area {
+.tab_wrap {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="radio"]{display:none;}
+
+.tab_area {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    font-size:0; 
+    margin:0 ;
+}
+
+.tab_area label {
+    width: 5vw; 
+    margin-right: 5px; 
+    padding: 1vw 0; 
+    color: #999; 
+    background: #ddd; 
+    text-align: center; 
+    font-size: 1vh; 
+    cursor: pointer; 
+    transition: ease 0.2s opacity;
+    border: solid 1px;
+    border-bottom: 0;
+}
+
+.tab_area label:hover { 
+    opacity:0.5;
+}
+
+.panel_area {
     height: 100%;
 }
 
+.tab_panel {
+    width:100%;
+    display:none;
+    height: 100%;
+}
+ 
+#tab1:checked ~ .tab_area .tab1_label{background:#fff; color:rgb(0, 0, 0);}
+#tab1:checked ~ .panel_area #panel1{display:block;}
+#tab2:checked ~ .tab_area .tab2_label{background:#fff; color:#000;}
+#tab2:checked ~ .panel_area #panel2{display:block;}
+
+/* #source-edit-area {
+    height: 100%;
+} */
+
 #timeline-container {
-    flex:2;
+    flex:1;
     display: flex;
     flex-direction: row;
     margin: 2vw;
+    width: 100%;
+    height: 150px;
 }
 
 #timeline-header {
@@ -98,14 +149,10 @@ body {
 #timeline-header-ruler {
     flex:8;
     max-width:100%;
-    max-height:100%;
+    max-height:80%;
     overflow-x: scroll;
     position: relative;
 }
-
-#timeline-header-ruler::-webkit-scrollbar {
-    display: none;
-  }
 
 #canvas {
 
@@ -117,7 +164,6 @@ body {
     flex-direction: row;
     height: 100%;
     width: 100%;
-    margin-top: 10px;
 }
 
 #timeline-body-side {
@@ -129,10 +175,9 @@ body {
 }
 
 #time-line-handle {
-    z-index: 10;
     position: absolute;
-    width: 2px;
-    height: 300px;
+    width: 3px;
+    height: 100%;
     margin: 0;
     background-color: rgba(0, 255, 255, 0.473);
     display: flex;
@@ -144,4 +189,29 @@ body {
     width: 50px;
     height: 30px;
     background-color: rgba(0, 255, 255);
+}
+
+.scriptItem {
+    width: 50px;
+    height: 75%;
+    background-color: darkcyan;
+    font-size: 1vh;
+    word-break:break-all;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/*スクロールバーの軌道*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+}
+
+/*スクロールバーの動く部分*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 50, .5);
+  border-radius: 10px;
+  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
 }

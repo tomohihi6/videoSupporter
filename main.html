@@ -4,19 +4,30 @@
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
-<script type="text/javascript" src="./main.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/addon/edit/closebrackets.min.js"></script>
+<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
+<script type="text/javascript" src="./main.js"></script>
+<script>
+    $(function() {
+        $('#time-line-handle').draggable({
+            axis: 'x',
+            containment: '#canvas',
+            drag: function (e, ui) {
+                seekVideo(e)
+            }
+        });
+    })
+</script>
 </head>
 
-<body onload="draw();">
+<body>
 <div id="main">
-    <header>
-        タイトル
-    </header>
     <div id="container">
         <div id="video-source-container">
             <div id="video-container">
@@ -25,31 +36,58 @@
                 </div>
             </div>
             <div id="source-container">
-                <div id="source-name" class="name">
+                <!-- <div id="source-name" class="name">
                     main source
-                </div>
+                </div> -->
                 <div id="source">
-                    <textarea name="" id="source-edit-area" cols="30" rows="10"></textarea>
+                    <div class="tab_wrap">
+                        <input id="tab1" type="radio" name="tab_btn" checked>
+                        <input id="tab2" type="radio" name="tab_btn"> 
+
+                        <div class="tab_area">
+                            <label class="tab1_label" for="tab1">元ソース</label>
+                            <label class="tab2_label" for="tab2">srt.js編集</label>
+                        </div>
+                        <div class="panel_area" id="panel_area">
+                            <div id="panel1"  class='tab_panel'>
+                                <textarea id="copy-source-area"></textarea>
+                            </div>
+                            <div id="panel2">
+                                <textarea id="srt-source-area"></textarea>       
+                            </div>
+
+                    </div>
                 </div>
-            </div>
+        </div>
+        </div>
         </div>
         <div id="timeline-container">
             <div id="timeline-body">
                 <div id="timeline-header-ruler">
                     <canvas id="canvas"></canvas>
-                    <div id="time-line-handle"  style="top: 0px; left: 0px;">
+                    <div id="time-line-handle" style="top: 0px; left: 8px;">
                         <div id="handle-time">00:00</div>
-                        <div id="stick"></div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+        <button onclick="confirmSaveScript()">save</button>
     </div>
 </div>
 <script>
+    window.onload = function() {
+        const panel2 = document.getElementById("panel2")
+        panel2.classList.add('tab_panel');
+    }
     const canvas = document.getElementById("canvas");
+    const handle = document.getElementById("time-line-handle");
     canvas.onmousedown = (e => {
         seekVideo(e);
+    });
+    handle.ondblclick = (e => {
+        addScriptItem(e);
     })
 
     const option = {
@@ -59,8 +97,19 @@
         autoCloseBrackets: true,
     }
 
-    let editor = CodeMirror.fromTextArea(document.getElementById("source-edit-area"),option);
-    editor.setSize('100%', '100%')
+    let editor = CodeMirror.fromTextArea(document.getElementById("copy-source-area"),option);
+    let editor2 = CodeMirror.fromTextArea(document.getElementById("srt-source-area"),option);
+    // editor2.on('change', function(e) {
+    //     const value = editor2.getDoc().getValue();
+    //     nowEditing.innerText = value;
+    //     console.log(isEdit)
+    // })
+    editor2.on('change', saveTextToScriptItem);
+    editor2.on('blur', function(e) {
+        isEdit = false;
+    })
+    editor.setSize('100%', '80%');
+    editor2.setSize('100%', '80%');
 </script>
 </body>
 </html>

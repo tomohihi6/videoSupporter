@@ -197,6 +197,7 @@ input[type="radio"]{display:none;}
     background-color: darkcyan;
     font-size: 1vh;
     word-break:break-all;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {

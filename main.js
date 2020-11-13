@@ -8,7 +8,6 @@ const scriptItemInitWidth = 45;
 let isEdit = false;
 // 現在編集中のsrt.js記述用要素のDOM情報を格納
 let nowEditing;
-console.log(lineWidth);
 
 // youtube plyaerの準備ができたら実行する関数
 function draw(){
@@ -132,13 +131,15 @@ function addScriptItem(e) {
 
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem ui-selectee');
-    scriptItem.innerText =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
+    scriptItem.textContent =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
     scriptItem.style.position = 'absolute';
     scriptItem.style.left = mouse.x + 'px';
     scriptItem.style.top = '50px';
     scriptItem.style.width = scriptItemInitWidth + 'px';
     scriptItem.ondblclick = function() {
         editSrt(scriptItem);
+        $(this).resizable('destroy');
+        setResize();
     }
     ruler.appendChild(scriptItem);
     // ドラッグとリサイズできるように
@@ -147,14 +148,31 @@ function addScriptItem(e) {
 }
 
 function setDrag() {
+    let textContents;
     $('.scriptItem').draggable({
         axis: 'x',
         containment: '#canvas',
+        start: function(e) {
+            textContents = e.target.textContent.split('\n');
+        },
         drag: function(e) {
             // innnertextをいじってdivを更新してしまっているため，リサイズができなくなる
-            e.target.innerText = getScriptTime(e);
+            e.target.textContent = getScriptTime(e);
         },
         stop: function(e) {
+            const currentVideoTime = getScriptTime(e);
+            console.log(currentVideoTime)
+            let returnText = '';
+            textContents.forEach((text, i) => {
+                if(i == 0) {
+                    returnText += currentVideoTime + '\n';
+                } else if(i == textContents.length - 1) {
+                    returnText += text;
+                } else {
+                    returnText += text + '\n';
+                }
+            })
+            e.target.textContent = returnText;
             //一度リサイズを削除して，再度セットし直す.
             $(this).resizable('destroy');
             setResize();
@@ -163,16 +181,33 @@ function setDrag() {
 }
 
 function setResize() {
+    let textContents;
     $('.scriptItem').resizable({
         // Handles left right and bottom right corner
         handles: 'e, w, se',
         containment: '#canvas',
         // Remove height style
+        start: function(e) {
+            textContents = e.target.textContent.split('\n');
+        },
         resize: function(e) {
             $(this).css("height", '');
-            e.target.innerText = getScriptTime(e);
+            e.target.textContent = getScriptTime(e);
         },
         stop: function(e) {
+            const currentVideoTime = getScriptTime(e);
+            console.log(currentVideoTime)
+            let returnText = '';
+            textContents.forEach((text, i) => {
+                if(i == 0) {
+                    returnText += currentVideoTime + '\n';
+                } else if(i == textContents.length - 1) {
+                    returnText += text;
+                } else {
+                    returnText += text + '\n';
+                }
+            })
+            e.target.textContent = returnText;
             // setDrag（）と同様の理由
             $(this).resizable('destroy');
             setResize();
@@ -209,14 +244,14 @@ function editSrt(e) {
     const tab2 = document.getElementById("tab2");
     tab2.checked = true;
     // 記述用タブの切り替え
-    doc.setValue(e.innerText);
+    doc.setValue(e.textContent);
     editor2.focus();
     return ;
 }
 
 function saveTextToScriptItem() {
     const value = editor2.getDoc().getValue();
-    nowEditing.innerText = value;
+    nowEditing.textContent = value;
 }
 
 function saveScriptToLocalFile(fileName) {
@@ -259,7 +294,7 @@ function gatherTextsFromScriptItems() {
     })
     scriptItems.forEach((e, i) => {
         texts += i + '\n';
-        texts += e.innerText + '\n\n';
+        texts += e.textContent + '\n\n';
     })
     return texts;
 }

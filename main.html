@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/addon/edit/closebrackets.min.js"></script>
 <script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <script>
@@ -73,19 +73,25 @@
 
             </div>
         </div>
-        <button onclick="confirmSaveScript()">save</button>
+
     </div>
+    <button onclick="confirmSaveScript()">save</button>
+    <input type="file" id="input-file" />
+    <output id="list"></output>
 </div>
 <script>
     window.onload = function() {
         const panel2 = document.getElementById("panel2")
         panel2.classList.add('tab_panel');
     }
+
     const canvas = document.getElementById("canvas");
     const handle = document.getElementById("time-line-handle");
+
     canvas.onmousedown = (e => {
         seekVideo(e);
     });
+
     handle.ondblclick = (e => {
         addScriptItem(e);
     })
@@ -110,6 +116,23 @@
     })
     editor.setSize('100%', '80%');
     editor2.setSize('100%', '80%');
+
+    function handleFileSelect(evt) {
+        const file = evt.target.files[0]; // FileList object
+        console.log(file)
+
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function() {
+            const result = reader.result;
+            console.log(result);
+            const editorDoc = editor.getDoc();
+            editorDoc.setValue(result);
+        }
+        
+    }
+
+  document.getElementById('input-file').addEventListener('change', handleFileSelect, false);
 </script>
 </body>
 </html>

@@ -132,7 +132,7 @@ function addScriptItem(e) {
 
     const scriptItem = document.createElement('div');
     scriptItem.setAttribute('class', 'scriptItem ui-selectee');
-    scriptItem.innerText =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
+    scriptItem.textContent =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
     scriptItem.style.position = 'absolute';
     scriptItem.style.left = mouse.x + 'px';
     scriptItem.style.top = '50px';
@@ -152,7 +152,7 @@ function setDrag() {
         containment: '#canvas',
         drag: function(e) {
             // innnertextをいじってdivを更新してしまっているため，リサイズができなくなる
-            e.target.innerText = getScriptTime(e);
+            e.target.textContent = getScriptTime(e);
         },
         stop: function(e) {
             //一度リサイズを削除して，再度セットし直す.
@@ -170,7 +170,7 @@ function setResize() {
         // Remove height style
         resize: function(e) {
             $(this).css("height", '');
-            e.target.innerText = getScriptTime(e);
+            e.target.textContent = getScriptTime(e);
         },
         stop: function(e) {
             // setDrag（）と同様の理由
@@ -209,14 +209,14 @@ function editSrt(e) {
     const tab2 = document.getElementById("tab2");
     tab2.checked = true;
     // 記述用タブの切り替え
-    doc.setValue(e.innerText);
+    doc.setValue(e.textContent);
     editor2.focus();
     return ;
 }
 
 function saveTextToScriptItem() {
     const value = editor2.getDoc().getValue();
-    nowEditing.innerText = value;
+    nowEditing.textContent = value;
 }
 
 function saveScriptToLocalFile(fileName) {
@@ -259,7 +259,7 @@ function gatherTextsFromScriptItems() {
     })
     scriptItems.forEach((e, i) => {
         texts += i + '\n';
-        texts += e.innerText + '\n\n';
+        texts += e.textContent + '\n\n';
     })
     return texts;
 }

@@ -9,17 +9,17 @@ body {
     margin: 0;
     background-color: #4E4B4B;
     font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
+    font-size: 1em;
     max-width: 1920px;
 }
 
 header {
     display: flex;
     width: 100%;
-    height: 5%;
+    height: 8%;
     flex-direction: row;
     align-items: center;
     position: relative;
-    padding: .8em 1.2rem;
     background-color: #6A6666;
     color: white;
 }
@@ -32,7 +32,7 @@ header {
     position: absolute;
     display: flex;
     flex-direction: row;
-    left: 75%;
+    left: 70%;
     top: 50%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
@@ -43,10 +43,15 @@ header {
     border: 0px;
     color: white;
     outline: none;
+    font-size: 1em;
 }
 
 .fileButton:hover {
     border: 1px solid gray;
+}
+
+#input-file {
+    display: none;
 }
 
 #main {
@@ -91,7 +96,6 @@ header {
     flex:2;
     display: flex;
     flex-direction: column;
-    height: 420px;
     margin-left: 1vw;
 }
 
@@ -244,8 +248,9 @@ input[type="radio"]{display:none;}
 .scriptItem {
     width: 50px;
     height: 75%;
-    background-color: darkcyan;
-    font-size: 1vh;
+    background-color: rgba(77, 144, 72, 0.58);
+    color: white;
+    font-size: 10px;
     word-break:break-all;
     overflow: hidden;
 }

@@ -93,7 +93,7 @@ function setCanvas(vD) {
     const ruler = document.getElementById('timeline-header-ruler');
     // 数直線の幅が動画時間の関係によってrulerの幅より短くなりそうなら，引き延ばしていい感じの幅にするように
     const w = (ruler.clientWidth > (vD * 15)) ? ruler.clientWidth : vD * 15 + 30;
-    const h = ruler.clientHeight;
+    const h = ruler.clientHeight - ruler.clientHeight * 0.1;
     canvas.setAttribute("width", w);
     canvas.setAttribute("height", h);
     return canvas;
@@ -249,9 +249,6 @@ function editSrt(e) {
     isEdit = true;
     nowEditing = e;
     const doc = editor2.getDoc();
-    const tab2 = document.getElementById("tab2");
-    tab2.checked = true;
-    // 記述用タブの切り替え
     doc.setValue(e.textContent);
     editor2.focus();
     return ;
@@ -305,4 +302,20 @@ function gatherTextsFromScriptItems() {
         texts += e.textContent + '\n\n';
     })
     return texts;
+}
+
+//ファイル読み込み用関数
+function handleFileSelect(evt) {
+    console.log(evt)
+    const file = evt.target.files[0]; // FileList object
+
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function() {
+        const result = reader.result;
+        console.log(result);
+        const editorDoc = editor.getDoc();
+        editorDoc.setValue(result);
+    }
+    
 }

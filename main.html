@@ -32,8 +32,9 @@
             編集ソフト
         </div>
         <div id="file-buttons">
-            <button class="fileButton" style="margin-right: 3vw">ファイルを読み込む</button>
-            <button class="fileButton">ファイルを書き出す</button>
+            <input type="file" id="input-file" />
+            <label for="input-file" class="fileButton" style="margin-right: 3vw">ファイルを読み込む</label>
+            <button onclick="confirmSaveScript()" class="fileButton">ファイルを書き出す</button>
         </div>
     </header>
 <div id="main">
@@ -71,14 +72,10 @@
         </div>
 
     </div>
-    <!-- <button onclick="confirmSaveScript()">save</button>
-    <input type="file" id="input-file" />
-    <output id="list"></output> -->
 </div>
 <script>
     window.onload = function() {
         const videoContainer = document.getElementById('video-container');
-        
     }
 
     const canvas = document.getElementById("canvas");
@@ -112,23 +109,8 @@
     })
     editor.setSize('100%', '90%');
     editor2.setSize('100%', '90%');
-
-    function handleFileSelect(evt) {
-        const file = evt.target.files[0]; // FileList object
-        console.log(file)
-
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = function() {
-            const result = reader.result;
-            console.log(result);
-            const editorDoc = editor.getDoc();
-            editorDoc.setValue(result);
-        }
-        
-    }
-
-  document.getElementById('input-file').addEventListener('change', handleFileSelect, false);
+    
+    document.getElementById('input-file').addEventListener("change", handleFileSelect, false);
 </script>
 </body>
 </html>

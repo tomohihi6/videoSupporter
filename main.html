@@ -27,6 +27,15 @@
 </head>
 
 <body>
+    <header>
+        <div id="header-title">
+            編集ソフト
+        </div>
+        <div id="file-buttons">
+            <button class="fileButton" style="margin-right: 3vw">ファイルを読み込む</button>
+            <button class="fileButton">ファイルを書き出す</button>
+        </div>
+    </header>
 <div id="main">
     <div id="container">
         <div id="video-source-container">
@@ -36,30 +45,17 @@
                 </div>
             </div>
             <div id="source-container">
-                <!-- <div id="source-name" class="name">
-                    main source
-                </div> -->
-                <div id="source">
-                    <div class="tab_wrap">
-                        <input id="tab1" type="radio" name="tab_btn" checked>
-                        <input id="tab2" type="radio" name="tab_btn"> 
-
-                        <div class="tab_area">
-                            <label class="tab1_label" for="tab1">元ソース</label>
-                            <label class="tab2_label" for="tab2">srt.js編集</label>
-                        </div>
-                        <div class="panel_area" id="panel_area">
-                            <div id="panel1"  class='tab_panel'>
-                                <textarea id="copy-source-area"></textarea>
-                            </div>
-                            <div id="panel2">
-                                <textarea id="srt-source-area"></textarea>       
-                            </div>
-
+                <div id="source">   
+                    <div id="panel1">
+                        <div class="panelTitle">元ソース</div>
+                        <textarea id="copy-source-area"></textarea>
+                    </div>
+                    <div id="panel2">
+                        <div class="panelTitle">srt.js編集</div>
+                        <textarea id="srt-source-area"></textarea>       
                     </div>
                 </div>
-        </div>
-        </div>
+            </div>
         </div>
         <div id="timeline-container">
             <div id="timeline-body">
@@ -75,14 +71,14 @@
         </div>
 
     </div>
-    <button onclick="confirmSaveScript()">save</button>
+    <!-- <button onclick="confirmSaveScript()">save</button>
     <input type="file" id="input-file" />
-    <output id="list"></output>
+    <output id="list"></output> -->
 </div>
 <script>
     window.onload = function() {
-        const panel2 = document.getElementById("panel2")
-        panel2.classList.add('tab_panel');
+        const videoContainer = document.getElementById('video-container');
+        
     }
 
     const canvas = document.getElementById("canvas");
@@ -114,8 +110,8 @@
     editor2.on('blur', function(e) {
         isEdit = false;
     })
-    editor.setSize('100%', '80%');
-    editor2.setSize('100%', '80%');
+    editor.setSize('100%', '90%');
+    editor2.setSize('100%', '90%');
 
     function handleFileSelect(evt) {
         const file = evt.target.files[0]; // FileList object

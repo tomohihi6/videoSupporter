@@ -33,6 +33,12 @@ function drawNumberLine(canvas, videoDuration) {
         y: 10,
     }
 
+    //数直線の背景用の長方形の描画
+    ctx.beginPath();
+    ctx.rect(x, 0, width, height);
+    ctx.fillStyle = "#958A8A";
+    ctx.fill();
+
     //数直線を引き延ばすかどうかの判定 canvasの長さが動画時間より長い時に
     if(canvas.clientWidth > videoDuration * 15) {
         lineWidth = (canvas.clientWidth) / videoDuration;
@@ -53,6 +59,7 @@ function drawNumberLine(canvas, videoDuration) {
         if(i % 10 == 0 && i != 0) {
             const displayTime = getDisplayTime(time);
             lineHeight = 15;
+            ctx.fillStyle = "White";
             ctx.fillText(displayTime, time.x, time.y);
             time.x += time_x_width;
         }
@@ -60,15 +67,16 @@ function drawNumberLine(canvas, videoDuration) {
         ctx.beginPath();
         ctx.moveTo(moveX, y);          // 始点に移動
         ctx.lineTo(moveX, y - lineHeight);        // 終点
-        ctx.strokeStyle = "Black";  // 線の色
+        ctx.strokeStyle = "White";  // 線の色
         ctx.lineWidth = 1;           // 線の太さ
         ctx.stroke();
     }
 
+    //数直線の下線
     ctx.beginPath();
     ctx.moveTo(x, height);
     ctx.lineTo(width, y);
-    ctx.strokeStyle = "Black";  // 線の色
+    ctx.strokeStyle = "White";  // 線の色
     ctx.lineWidth = 1;           // 線の太さ
     ctx.stroke();
 }
@@ -241,9 +249,6 @@ function editSrt(e) {
     isEdit = true;
     nowEditing = e;
     const doc = editor2.getDoc();
-    const tab2 = document.getElementById("tab2");
-    tab2.checked = true;
-    // 記述用タブの切り替え
     doc.setValue(e.textContent);
     editor2.focus();
     return ;
@@ -297,4 +302,20 @@ function gatherTextsFromScriptItems() {
         texts += e.textContent + '\n\n';
     })
     return texts;
+}
+
+//ファイル読み込み用関数
+function handleFileSelect(evt) {
+    console.log(evt)
+    const file = evt.target.files[0]; // FileList object
+
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function() {
+        const result = reader.result;
+        console.log(result);
+        const editorDoc = editor.getDoc();
+        editorDoc.setValue(result);
+    }
+    
 }

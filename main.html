@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/blackboard.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- jQuery UI -->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -90,6 +91,7 @@
         lineNumbers: true,　 // 行番号を表示する
         lineWrapping: true,　 // 行を折り返す
         autoCloseBrackets: true,
+        theme: "blackboard",
     }
 
     let editor = CodeMirror.fromTextArea(document.getElementById("copy-source-area"),option);

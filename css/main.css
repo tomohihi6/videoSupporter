@@ -26,6 +26,7 @@ header {
 
 #header-title {
     margin: 0 auto;
+    color: white;
 }
 
 #file-buttons {
@@ -226,7 +227,7 @@ input[type="radio"]{display:none;}
     background-color: rgba(0, 255, 255);
 }
 
-.scriptItem {
+.scriptItemContainer {
     width: 50px;
     height: 75%;
     background-color: rgba(77, 144, 72, 0.58);
@@ -234,6 +235,20 @@ input[type="radio"]{display:none;}
     font-size: 10px;
     word-break:break-all;
     overflow: hidden;
+}
+
+.scriptItemButton {
+    background-color: rgba(77, 144, 72, 0);
+    border: 0px;
+    color: black;
+    outline: none;
+    font-size: 1em;
+    padding: 0;
+    float: right;
+}
+
+.scriptItemButton:hover {
+    background-color: rgba(60, 165, 52);;
 }
 
 ::-webkit-scrollbar {

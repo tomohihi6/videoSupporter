@@ -137,35 +137,57 @@ function addScriptItem(e) {
     // 親要素
     const ruler = document.getElementById('timeline-header-ruler');
 
-    const scriptItem = document.createElement('div');
-    scriptItem.setAttribute('class', 'scriptItem ui-selectee');
-    scriptItem.textContent =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
-    scriptItem.style.position = 'absolute';
-    scriptItem.style.left = mouse.x + 'px';
-    scriptItem.style.top = '50px';
-    scriptItem.style.width = scriptItemInitWidth + 'px';
-    scriptItem.ondblclick = function() {
-        editSrt(scriptItem);
-        $(this).resizable('destroy');
-        setResize();
-    }
-    ruler.appendChild(scriptItem);
+    const scriptItemContainer = createScriptItemElement(mouse, startTime, endTime);
+    ruler.appendChild(scriptItemContainer);
     // ドラッグとリサイズできるように
     setDrag();
     setResize();
 }
 
+function createScriptItemElement(mouse, startTime, endTime) {
+    const scriptItemConteiner = document.createElement('div');
+    scriptItemConteiner.setAttribute('class', 'scriptItemContainer ui-selectee');
+    scriptItemConteiner.style.position = 'absolute';
+    scriptItemConteiner.style.left = mouse.x + 'px';
+    scriptItemConteiner.style.top = '50px';
+    scriptItemConteiner.style.width = scriptItemInitWidth + 'px';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.setAttribute('class', 'scriptItemButton');
+    deleteButton.style.width = scriptItemInitWidth - 25 + "px";
+    deleteButton.style.height = "20px";
+    deleteButton.innerHTML = "×";
+    deleteButton.onclick = function() {
+        $(this).parent().remove();
+    }
+
+    const scriptItem = document.createElement('div');
+    scriptItem.setAttribute('class', 'scriptItem');
+    scriptItem.textContent =  "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
+    scriptItemConteiner.ondblclick = function() {
+        editSrt(scriptItem);
+        $(this).resizable('destroy');
+        setResize();
+    }
+
+    scriptItemConteiner.appendChild(deleteButton);
+    scriptItemConteiner.appendChild(scriptItem);
+    return scriptItemConteiner;
+}
+
 function setDrag() {
     let textContents;
-    $('.scriptItem').draggable({
+    let scriptItem;
+    $('.scriptItemContainer').draggable({
         axis: 'x',
         containment: '#canvas',
         start: function(e) {
-            textContents = e.target.textContent.split('\n');
+            scriptItem = e.target.childNodes[1];
+            textContents = scriptItem.textContent.split('\n');
         },
         drag: function(e) {
             // innnertextをいじってdivを更新してしまっているため，リサイズができなくなる
-            e.target.textContent = getScriptTime(e);
+            scriptItem.textContent = getScriptTime(e);
         },
         stop: function(e) {
             const currentVideoTime = getScriptTime(e);
@@ -180,7 +202,7 @@ function setDrag() {
                     returnText += text + '\n';
                 }
             })
-            e.target.textContent = returnText;
+            scriptItem.textContent = returnText;
             //一度リサイズを削除して，再度セットし直す.
             $(this).resizable('destroy');
             setResize();
@@ -190,17 +212,19 @@ function setDrag() {
 
 function setResize() {
     let textContents;
-    $('.scriptItem').resizable({
+    let scriptItem;
+    $('.scriptItemContainer').resizable({
         // Handles left right and bottom right corner
         handles: 'e, w, se',
         containment: '#canvas',
         // Remove height style
         start: function(e) {
-            textContents = e.target.textContent.split('\n');
+            scriptItem =  e.target.childNodes[1];
+            textContents = scriptItem.textContent.split('\n');
         },
         resize: function(e) {
             $(this).css("height", '');
-            e.target.textContent = getScriptTime(e);
+            scriptItem.textContent = getScriptTime(e);
         },
         stop: function(e) {
             const currentVideoTime = getScriptTime(e);
@@ -215,7 +239,7 @@ function setResize() {
                     returnText += text + '\n';
                 }
             })
-            e.target.textContent = returnText;
+            scriptItem.textContent = returnText;
             // setDrag（）と同様の理由
             $(this).resizable('destroy');
             setResize();
@@ -283,13 +307,13 @@ function confirmSaveScript() {
 
 function gatherTextsFromScriptItems() {
     // srt.js記述用要素全てを取得
-    let scriptItems = document.getElementsByClassName('scriptItem');
+    let scriptItemContainers = document.getElementsByClassName('scriptItemContainer');
     // スクリプト記録用変数
     let texts = ''
     // このままだとHTMLCollectionとなって配列として扱うことができないので，配列に変換
-    scriptItems = Array.from( scriptItems ) ;
+    scriptItemContainers = Array.from( scriptItemContainers ) ;
     // 中身の再生時間が短い順にソート
-    scriptItems.sort(function(a, b) {
+    scriptItemContainers.sort(function(a, b) {
         //要素のleftを取ってきてソート用に比較 pxの文字が邪魔なので取り除いてから数値に変換
         const rectA = Number(a.style.left.replace('px', ''));
         const rectB = Number(b.style.left.replace('px', ''));
@@ -297,9 +321,9 @@ function gatherTextsFromScriptItems() {
         else if(rectA > rectB) return 1;
         return 0;
     })
-    scriptItems.forEach((e, i) => {
+    scriptItemContainers.forEach((e, i) => {
         texts += i + '\n';
-        texts += e.textContent + '\n\n';
+        texts += e.childNodes[1].textContent + '\n\n';
     })
     return texts;
 }

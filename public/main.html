@@ -4,16 +4,38 @@
 <meta charset="UTF-8">
 <title>ここにタイトル</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/blackboard.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- firebase -->
+<!-- update the version number as needed -->
+<script defer src="/__/firebase/8.1.2/firebase-app.js"></script>
+<!-- include only the Firebase features as you need -->
+<script defer src="/__/firebase/8.1.2/firebase-auth.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-database.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-firestore.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-functions.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-messaging.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-storage.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-analytics.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-remote-config.js"></script>
+<script defer src="/__/firebase/8.1.2/firebase-performance.js"></script>
+<!-- 
+  initialize the SDK after all desired features are loaded, set useEmulator to false
+  to avoid connecting the SDK to running emulators.
+-->
+<script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
 <!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<!-- codemirror -->
+<link rel="stylesheet" href="css/blackboard.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
-<script type="text/javascript" src="./fetchInfoFromYouTube.js"></script>
-<script type="text/javascript" src="./main.js"></script>
+
+<script type="text/javascript" src="./js/fetchInfoFromYouTube.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
 <script>
     $(function() {
         $('#time-line-handle').draggable({
@@ -70,6 +92,14 @@
 
     </div>
 </div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/8.1.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
 <script>
     window.onload = function() {
         const videoContainer = document.getElementById('video-container');
@@ -109,25 +139,6 @@
     editor2.setSize('100%', '90%');
     
     document.getElementById('input-file').addEventListener("change", handleFileSelect, false);
-</script>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyBvqO-4N3QBdsxgu6YRxvcCb2WQLGTIFVg",
-    authDomain: "my-project-srtjs.firebaseapp.com",
-    projectId: "my-project-srtjs",
-    storageBucket: "my-project-srtjs.appspot.com",
-    messagingSenderId: "837038899608",
-    appId: "1:837038899608:web:f31230d522f195ed45abed"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
 </script>
 </body>
 </html>

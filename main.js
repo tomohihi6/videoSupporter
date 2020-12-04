@@ -115,13 +115,13 @@ function seekVideo(e) {
     moveHandle(mouse.x);
 }
 
-function moveHandle(mouseX) {
+function moveHandle(handleLeft) {
     const handle = document.getElementById("time-line-handle");
     const time = document.getElementById("handle-time");
     const width = handle.clientWidth;
     const height = handle.clientHeight;
-    handle.style.left = mouseX - width / 2 + 7 + "px"
-    const displayTime = timeConvert(mouseX / lineWidth);
+    handle.style.left = handleLeft - width / 2 + 7 + "px"
+    const displayTime = timeConvert(handleLeft / lineWidth);
     time.innerHTML = String(displayTime);
 }
 
@@ -296,8 +296,8 @@ function saveScriptToLocalFile(fileName) {
 }
 
 function confirmSaveScript() {
-    const fileName = window.prompt("ファイルを保存します．\nファイル名を入力してください", ".js");
-    if(!fileName || fileName == ".js") {
+    const fileName = window.prompt("ファイルを保存します．\nファイル名を入力してください", `${videoId}.js`);
+    if(!fileName) {
         alert('ファイル名を入力してください．')
         return ;
     } else {

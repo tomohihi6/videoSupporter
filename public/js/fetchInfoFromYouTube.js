@@ -3,6 +3,7 @@ script.src = "https://www.youtube.com/iframe_api";
 firstScript = document.getElementsByTagName( 'script' )[ 0 ];
 firstScript.parentNode.insertBefore( script , firstScript );
 
+let isPlaying = false;
 let player;
 const videoId = getVideoId();
 
@@ -35,11 +36,22 @@ function onYouTubeIframeAPIReady() {
         videoId: videoId,
         events: {
             'onReady': onPlayerReady,
-            // 'onStateChange': onPlayerStateChange
-        }
+            'onStateChange': onPlayerStateChange,
+        },
+        rel: 0,
     });
 }
 
-function onPlayerReady(event) {
+function onPlayerReady(e) {
+    //canvasの描画
     draw();
+}
+
+function onPlayerStateChange(e) {
+    if(e.data === YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        
+    } else {
+        isPlaying = false;
+    }
 }

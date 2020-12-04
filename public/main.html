@@ -110,5 +110,24 @@
     
     document.getElementById('input-file').addEventListener("change", handleFileSelect, false);
 </script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBvqO-4N3QBdsxgu6YRxvcCb2WQLGTIFVg",
+    authDomain: "my-project-srtjs.firebaseapp.com",
+    projectId: "my-project-srtjs",
+    storageBucket: "my-project-srtjs.appspot.com",
+    messagingSenderId: "837038899608",
+    appId: "1:837038899608:web:f31230d522f195ed45abed"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
 </body>
 </html>

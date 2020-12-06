@@ -293,7 +293,7 @@ function uploadFileToFirebaseStorage(fileName) {
     // document.body.appendChild(a); // ※ DOM が構築されてからでないとエラーになる
     // a.click();
     // document.body.removeChild(a);
-    const storageRef = firebase.storage().ref().child(fileName);
+    const storageRef = firebase.storage().ref().child(`srt.js/${fileName}`);
     const metadata = {
         contentType: "text/javascript",
     };

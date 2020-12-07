@@ -296,6 +296,7 @@ function uploadFileToFirebaseStorage(fileName) {
     const storageRef = firebase.storage().ref().child(`srt.js/${fileName}`);
     const metadata = {
         contentType: "text/javascript",
+        contentEncoding: "UTF-8",
     };
     const uploadTask = storageRef.putString(saveText,"raw",metadata);
     uploadTask.on('state_changed', function(snapshot){

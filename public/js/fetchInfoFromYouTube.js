@@ -3,7 +3,7 @@ script.src = "https://www.youtube.com/iframe_api";
 firstScript = document.getElementsByTagName( 'script' )[ 0 ];
 firstScript.parentNode.insertBefore( script , firstScript );
 
-let isPlaying = false;
+let isPlaying;
 let player;
 const videoId = getVideoId();
 
@@ -38,7 +38,6 @@ function onYouTubeIframeAPIReady() {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
         },
-        rel: 0,
     });
 }
 
@@ -49,9 +48,11 @@ function onPlayerReady(e) {
 
 function onPlayerStateChange(e) {
     if(e.data === YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        
+        isPlaying = setInterval(() => {
+            console.log("now playing")
+            moveHandle(player.getCurrentTime() * lineWidth);
+        }, 50);
     } else {
-        isPlaying = false;
+        clearInterval(isPlaying);
     }
 }

@@ -116,15 +116,38 @@ header {
     height: 100%;
 }
 
+.panel-bar {
+    display: flex;
+    height: 10%;
+}
+
 .panelTitle {
     display: flex;
     width: 30%;
-    height: 10%;
     align-items: center;
     justify-content: center;
     color: white;
     background-color: #363333;
     font-size: 0.7em;
+}
+
+.highlight-btn-wrapper {
+    display: flex;
+    width: 70%;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.highlight-btn {
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    width: 2rem;
+    height: 2rem;
+}
+
+.highlight-btn:hover {
+    background-color: rgba(108, 108, 108, 0.5);
 }
 
 /* 

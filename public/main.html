@@ -27,6 +27,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js"></script>
 
+<!-- materialIcons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- local javascripts -->
 <script type="text/javascript" src="./js/fetchInfoFromYouTube.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 <script>
@@ -43,6 +47,8 @@
 </head>
 
 <body>
+
+    
     <header>
         <div id="header-title">
             編集ソフト
@@ -53,26 +59,44 @@
             <button onclick="confirmSaveScript()" class="fileButton">ファイルを書き出す</button>
         </div>
     </header>
+
 <div id="main">
     <div id="container">
+
         <div id="video-source-container">
+
             <div id="video-container">
                 <div id="video">
                     <div id="player"></div>
                 </div>
             </div>
+
             <div id="source-container">
                 <div id="source">   
+
                     <div id="panel1">
-                        <div class="panelTitle">元ソース</div>
+                        <div class="panel-bar">
+                            <div class="panelTitle">元ソース</div>
+                        </div>  
                         <textarea id="copy-source-area"></textarea>
                     </div>
+
                     <div id="panel2">
-                        <div class="panelTitle">タイムライン編集</div>
+                        <div class="panel-bar">
+                            <div class="panelTitle">タイムライン編集</div>
+                            <div class="highlight-btn-wrapper">
+                                <i onclick="addHlText('0')" style="display: inline-flex;" class="material-icons highlight-btn" title="動画ハイライト">ondemand_video</i>
+                                <i onclick="addHlText('1')" style="display: inline-flex;" class="material-icons highlight-btn" title="エディタハイライト">code</i>
+                                <i onclick="addHlText('2')" style="display: inline-flex;" class="material-icons highlight-btn" title="動画とエディタハイライト">video_label</i>
+                                <i onclick="addHlText('3')" style="display: inline-flex;" class="material-icons highlight-btn" title="ハイライト解除">remove</i>
+                            </div>
+                        </div>  
                         <textarea id="srt-source-area"></textarea>       
                     </div>
+
                 </div>
             </div>
+
         </div>
         <div id="timeline-container">
             <div id="timeline-header-ruler">

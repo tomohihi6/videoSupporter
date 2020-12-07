@@ -372,3 +372,22 @@ function handleFileSelect(evt) {
     }
     
 }
+
+function addHlText(highlightContentsNum) {
+    function checkHighlightContent(num) {
+        switch(num) {
+            case '0':
+                return 'doHighlight("player", highlightAll);\n';
+            case '1': 
+                return 'doHighlight("panel_area", highlightAll);\n';
+            case '2':
+                return 'doHighlight(highlightAll, highlightAll);\n';
+            case '3':
+                return 'deleteMe(highlightAll);\n';
+        }
+    }
+    const highlightTexts = checkHighlightContent(highlightContentsNum);
+    const editorDoc = editor2.getDoc();
+    const returnTexts = editorDoc.getValue() + highlightTexts;
+    editorDoc.setValue(returnTexts);
+}

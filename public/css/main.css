@@ -131,6 +131,25 @@ header {
     font-size: 0.7em;
 }
 
+.highlight-btn-wrapper {
+    display: flex;
+    width: 70%;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.highlight-btn {
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    width: 2rem;
+    height: 2rem;
+}
+
+.highlight-btn:hover {
+    background-color: rgba(108, 108, 108, 0.5);
+}
+
 /* 
 .tab_wrap {
     height: 100%;

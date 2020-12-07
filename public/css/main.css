@@ -116,10 +116,14 @@ header {
     height: 100%;
 }
 
+.panel-bar {
+    display: flex;
+    height: 10%;
+}
+
 .panelTitle {
     display: flex;
     width: 30%;
-    height: 10%;
     align-items: center;
     justify-content: center;
     color: white;

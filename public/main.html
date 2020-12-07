@@ -64,11 +64,19 @@
             <div id="source-container">
                 <div id="source">   
                     <div id="panel1">
-                        <div class="panelTitle">元ソース</div>
+                        <div class="panel-bar">
+                            <div class="panelTitle">元ソース</div>
+                        </div>  
                         <textarea id="copy-source-area"></textarea>
                     </div>
                     <div id="panel2">
-                        <div class="panelTitle">タイムライン編集</div>
+                        <div class="panel-bar">
+                            <div class="panelTitle">タイムライン編集</div>
+                            <button onclick="addHlText('0')" class="highlight-btn">video</button>
+                            <button onclick="addHlText('1')" class="highlight-btn">code</button>
+                            <button onclick="addHlText('2')" class="highlight-btn">video & code</button>
+                            <button onclick="addHlText('3')" class="highlight-btn">clear</button>
+                        </div>  
                         <textarea id="srt-source-area"></textarea>       
                     </div>
                 </div>

@@ -450,3 +450,8 @@ function closeModal() {
     });
 }
 
+function accessNewVideo() {
+    const searchWindow = document.getElementById("search-window");
+    const newVideoId = searchWindow.value;
+    location.href = `https://videosupporter.web.app/main.html?v=${newVideoId}`
+}

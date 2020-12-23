@@ -62,6 +62,7 @@
             <label for="input-file" class="fileButton" style="margin-right: 3vw">ファイルを読み込む</label>
             <button onclick="confirmSaveScript()" class="fileButton">ファイルを書き出す</button>
         </div>
+        <i onclick="openHelpModal()" class="material-icons help-button" title="チュートリアル">help_outline</i>
     </header>
 
 <div id="main">
@@ -70,7 +71,7 @@
         <!-- modal window -->
         <div id="modal-content" onclick="closeModal()">
             <p id="modal-texts"></p>
-            <p><a id="modal-close" class="button-link">閉じる</a></p>
+            <p><a id="modal-close" class="fileButton button-link">閉じる</a></p>
         </div>
 
         <div id="video-source-container">

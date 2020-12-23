@@ -409,7 +409,7 @@ function openModal() {
 
     const mainUrl = `https://myresearch.firebaseapp.com/ob.html?v=${videoId}`;
 
-    $("#modal-texts").html(`アップロードが完了しました．\n作成したスクリプトの動作は<a href="${mainUrl}">こちら</a>で確認できます．`);
+    $("#modal-texts").html(`アップロードが完了しました．\n作成したスクリプトの動作は<a href="${mainUrl}" style="color:#00bbdd">こちら</a>で確認できます．`);
     centeringModalSyncer();
 }
 
@@ -464,4 +464,16 @@ function checkWhatFocus() {
             }
         }  
     }  
+}
+
+function openHelpModal() {
+
+}
+
+function openSrtTutorial() {
+
+}
+
+function openVSTutorial() {
+
 }

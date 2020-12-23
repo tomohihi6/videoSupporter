@@ -26,7 +26,7 @@ header {
 
 #header-title {
     position: absolute;
-    left: 50%;
+    right: 50%;
     color: white;
 }
 
@@ -34,7 +34,7 @@ header {
     position: absolute;
     display: flex;
     flex-direction: row;
-    left: 70%;
+    right: 10%;
     top: 50%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
@@ -49,7 +49,7 @@ header {
 }
 
 .fileButton:hover {
-    border: 1px solid gray;
+    background-color: #aaa
 }
 
 #input-file {
@@ -57,7 +57,7 @@ header {
 }
 
 #main {
-    height: 94%;
+    height: 88%;
     width:100%;
 }
 
@@ -74,18 +74,19 @@ header {
 	width:50%;
 	margin:1.5em auto 0;
 	padding:10px 20px;
-	border:2px solid #aaa;
-	background:#fff;
-    z-index:1000;
+	border:2px solid #6A6666;
+	background:#6A6666;
+    z-index:1000 !important;
     position: fixed;
     display: none;
+    color: white;
 }
 
-.modal-p{
-	margin-top:1em;
+.modal-texts {
+    position: relative;
 }
 
-.modal-p:first-child{
+.modal-texts:first-child{
 	margin-top:0;
 }
 
@@ -101,13 +102,7 @@ header {
 }
 
 .button-link{
-	color:#00f;
-	text-decoration:underline;
-}
- 
-.button-link:hover{
-	cursor:pointer;
-	color:#f00;
+    float: right;
 }
 
 #video-source-container {
@@ -371,5 +366,15 @@ input[type="radio"]{display:none;}
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.help-button {
+    position: absolute;
+    right: 2%;
+    border-radius: 25px;
+}
+
+.help-button:hover {
+    background-color: #aaa
 }
 

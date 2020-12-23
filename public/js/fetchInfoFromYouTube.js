@@ -6,6 +6,7 @@ firstScript.parentNode.insertBefore( script , firstScript );
 let isPlaying;
 let player;
 const videoId = getVideoId();
+let ytState;
 
 function getVideoId() {
     const para = getUrlVars();
@@ -47,6 +48,7 @@ function onPlayerReady(e) {
 }
 
 function onPlayerStateChange(e) {
+    ytState = e.data;
     if(e.data === YT.PlayerState.PLAYING) {
         isPlaying = setInterval(() => {
             console.log("now playing")

@@ -455,3 +455,13 @@ function accessNewVideo() {
     const newVideoId = searchWindow.value;
     location.href = `https://videosupporter.web.app/main.html?v=${newVideoId}`
 }
+
+function checkWhatFocus() {
+    document.body.onkeypress = (e) => {
+        if(document.activeElement == document.body) {
+            if(e.code == "Space") {
+                ytState == YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
+            }
+        }  
+    }  
+}

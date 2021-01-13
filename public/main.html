@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>ここにタイトル</title>
+<title>編集支援ソフト</title>
 <link href="./css/main.css" rel="stylesheet" type="text/css">
 
 <!-- firebase -->
@@ -69,10 +69,14 @@
     <div id="container">
 
         <!-- modal window -->
-        <div id="modal-content" onclick="closeModal()">
+        <div class="modal-content" onclick="closeModal()">
             <p id="modal-texts"></p>
             <p><a id="modal-close" class="fileButton button-link">閉じる</a></p>
         </div>
+
+        <!-- <div class="modal-content modal-help">
+            
+        </div> -->
 
         <div id="video-source-container">
 
@@ -98,8 +102,9 @@
                             <div class="highlight-btn-wrapper">
                                 <i onclick="addHlText('0')" style="display: inline-flex;" class="material-icons highlight-btn" title="動画ハイライト">ondemand_video</i>
                                 <i onclick="addHlText('1')" style="display: inline-flex;" class="material-icons highlight-btn" title="エディタハイライト">code</i>
-                                <img onclick="addHlText('2')" src="./images/video_code.svg" style="display: inline-flex;" class="highlight-btn" title="動画とエディタハイライト">
-                                <i onclick="addHlText('3')" style="display: inline-flex;" class="material-icons highlight-btn" title="ハイライト解除">remove</i>
+                                <i onclick="addHlText('2')" style="display: inline-flex;" class="material-icons highlight-btn" title="字幕ハイライト">subtitles</i>
+                                <img onclick="addHlText('3')" src="./images/video_code.svg" style="display: inline-flex;" class="highlight-btn" title="複数ハイライト">
+                                <i onclick="addHlText('4')" style="display: inline-flex;" class="material-icons highlight-btn" title="ハイライト解除">remove</i>
                             </div>
                         </div>  
                         <textarea id="srt-source-area"></textarea>       

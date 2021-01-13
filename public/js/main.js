@@ -253,8 +253,8 @@ function getScriptTime(e) {
     const rect = e.target.getBoundingClientRect();
     const startTime = timeConvert((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
     const endTime = timeConvert((rect.right - canvasRect.left - adjCanvasX) / lineWidth);
-    player.seekTo((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
-    moveHandle(rect.left - canvasRect.left - adjCanvasX)
+    // player.seekTo((rect.left - canvasRect.left - adjCanvasX)/ lineWidth);
+    // moveHandle(rect.left - canvasRect.left - adjCanvasX)
     return "00:" +  startTime + ",000 -> 00:" + endTime + ",000";
 }
 
@@ -377,19 +377,27 @@ function addHlText(highlightContentsNum) {
     function checkHighlightContent(num) {
         switch(num) {
             case '0':
-                return 'doHighlight("player", highlightAll);\n';
+                return 'doHighlight("video");';
             case '1': 
-                return 'doHighlight("panel_area", highlightAll);\n';
+                return 'doHighlight("panel_area");';
             case '2':
-                return 'doHighlight(highlightAll, highlightAll);\n';
+                return 'doHighlight("video-summary");'
             case '3':
-                return 'deleteMe(highlightAll);\n';
+                return 'doHighlight(["video", "panel_area", "console-container", "video-summary"]);';
+            case '4':
+                return 'deleteMe(["video", "panel_area", "console-container", "video-summary"]);';
         }
     }
     const highlightTexts = checkHighlightContent(highlightContentsNum);
     const editorDoc = editor2.getDoc();
-    const returnTexts = editorDoc.getValue() + highlightTexts;
-    editorDoc.setValue(returnTexts);
+    const cursor = editorDoc.getCursor();
+    const line = editorDoc.getLine(cursor.line);
+    const pos = {
+        line: cursor.line,
+        ch: line.length - 1,
+    }
+    const returnTexts = highlightTexts;
+    editorDoc.replaceRange(returnTexts, pos);
 }
 
 function openModal() {
@@ -405,7 +413,7 @@ function openModal() {
     $("#modal-overlay").click(closeModal);
 
     //[$modal-content]をフェードインさせる
-    $("#modal-content").fadeIn("slow");
+    $(".modal-content").fadeIn("slow");
 
     const mainUrl = `https://myresearch.firebaseapp.com/ob.html?v=${videoId}`;
 
@@ -422,11 +430,11 @@ function centeringModalSyncer(){
 	var h = $(window).height();
 
 	//コンテンツ(#modal-content)の幅を取得し、変数[cw]に格納
-    var cw = $("#modal-content").outerWidth();
+    var cw = $(".modal-content").outerWidth();
     console.log(cw);
 
 	//コンテンツ(#modal-content)の高さを取得し、変数[ch]に格納
-	var ch = $("#modal-content").outerHeight();
+	var ch = $(".modal-content").outerHeight();
 
 	//コンテンツ(#modal-content)を真ん中に配置するのに、左端から何ピクセル離せばいいか？を計算して、変数[pxleft]に格納
 	var pxleft = ((w - cw)/2);
@@ -436,15 +444,15 @@ function centeringModalSyncer(){
     console.log(`pxleft is ${pxleft}\n pxtop is ${pxtop}`)
 
 	//[#modal-content]のCSSに[left]の値(pxleft)を設定
-	$("#modal-content").css({"left": pxleft + "px"});
+	$(".modal-content").css({"left": pxleft + "px"});
 
 	//[#modal-content]のCSSに[top]の値(pxtop)を設定
-	$("#modal-content").css({"top": pxtop + "px"});
+	$(".modal-content").css({"top": pxtop + "px"});
 
 }
 
 function closeModal() {
-    $("#modal-content,#modal-overlay").fadeOut("slow",function(){
+    $(".modal-content,#modal-overlay").fadeOut("slow",function(){
         //フェードアウト後、[#modal-overlay]をHTML(DOM)上から削除
         $("#modal-overlay").remove();
     });

@@ -1,6 +1,28 @@
 0
-00:00:01,000 -> 00:00:03,000
+00:00:01,000 -> 00:00:20,000
+doOnce[index] = true;
+indexf = 0;
 doHighlight("video");
+vars.btnAfunc = {};
+vars.btnAfunc[2] = function() {
+    player.playVideo();
+    console.log("押されてます");
+}
+vars.btnAfunc[12] = function() {
+    player.playVideo();
+    console.log("押されてます");
+}
+vars.btnAfunc[22] = function() {
+    angle = 90;
+}
+vars.btnAfunc[23] = function() {
+    angle = 90;
+}
+obniz.buttonA.onchange = (flg) => {
+    if(flg) {
+        vars.btnAfunc[indexf].call(null);
+    }
+}
 const doc = editor.getDoc();
 doc.setValue(
     `const Obniz = require('obniz');\n
@@ -58,19 +80,6 @@ doc.setValue(
         }, 10);
     }`
 )
-vars.btnAfunc = {};
-obniz.buttonA.onchange = (flg) => {
-    if(flg) {
-        let fn = indexedFunction(vars.btnAfunc);
-        if (fn != null) {
-            fn.call(null);
-        }
-    }
-}
-
-1
-00:00:21,000 -> 00:00:30,000
-doHighlight(["video", "console-container"]);
 servo = obniz.wired("ServoMotor", {signal:26});
 obniz.setupIMUWait().then(
 	() => {
@@ -82,29 +91,34 @@ obniz.setupIMUWait().then(
         );
     }
 );
+
+1
+00:00:21,000 -> 00:00:30,000
+doHighlight(["video", "console-container"]);
 accInterval = setInterval(async () => {
         const acc = await obniz.imu.getAccelWait();
-        singleLog(`x: ${acc.x}, y: ${acc.y}, z: ${acc.z}`)
+        singleLog(`accx: ${acc.x}, accy: ${acc.y}, accz: ${acc.z}`)
         angle = (90 * acc.x) + 90;
         servo.angle(angle);
     }, 100); 
 
 2
-00:00:31,000 -> 00:00:33,000
-player.pauseVideo();
+00:00:31,000 -> 00:00:32,500
+indexf = 2;
+doOnce[index] = true;
 doHighlight(["video-summary", "console-container"]);
 document.getElementById("video-title").innerText = `実際に手元のデバイスを動かして加速度センサの動きを感じてみてください.\n確認が終わったらデバイスのM5という文字が書かれたボタンを押してください`;
-vars.btnAfunc[index] = () => {
-	player.playVideo();
-}
+player.pauseVideo();
 
 3
 00:00:34,000 -> 00:00:39,000
+document.getElementById("video-title").innerText = "";
 clearInterval(accInterval);
 doHighlight("panel_area");
 const doc = editor0.getDoc();
 doc.setValue(
 `obniz.onconnect = async () => {
+    //6軸センサの呼び出し
     await obniz.setupIMUWait();
 }`
 );
@@ -115,15 +129,28 @@ doHighlight("panel_area");
 const doc = editor0.getDoc();
 const value = doc.getValue();
 doc.setValue(
-  value + '\n' +  `const servo = obniz.wired("ServoMotor", {signal:26});`
+    `obniz.onconnect = async () => {
+        //6軸センサの呼び出し
+        await obniz.setupIMUWait();
+        //サーボモータの呼び出し
+        const servo = obniz.wired("ServoMotor", {signal:26})\n
+    }`
 );
 
 5
 00:00:50,000 -> 00:00:57,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 const value = doc.getValue();
 doc.setValue(
-  value + '\n' +  ` const acc = await obniz.imu.getAccelWait();`
+    `obniz.onconnect = async () => {
+        //6軸センサの呼び出し
+        await obniz.setupIMUWait();
+        //サーボモータの呼び出し
+        const servo = obniz.wired("ServoMotor", {signal:26})\n
+        //加速度の取得
+        const acc = await obniz.imu.getAccelWait();
+    }`
 );
 
 6
@@ -134,30 +161,53 @@ doHighlight("video");
 00:01:07,000 -> 00:01:27,000
 aInterval = setInterval(async () => {
         const acc = await obniz.imu.getAccelWait();
-        singleLog(`x: ${acc.x}, y: ${acc.y}, z: ${acc.z}`)
+        singleLog(`accx: ${acc.x}, accy: ${acc.y}, accz: ${acc.z}`)
     }, 100);
-doHighlight(["video", "console-container"]);
+doHighlight(["video", "console-container", "video-summary"]);
+document.getElementById("video-title").innerText = `実際に手元のデバイスを触って，加速度xの値を確かめてみてください`;
 
 8
 00:01:30,000 -> 00:01:33,000
 clearInterval(aInterval);
+document.getElementById("video-title").innerText = '';
 doHighlight("panel_area");
 const doc = editor0.getDoc();
 const value = doc.getValue();
 doc.setValue(
-  value + '\n' +  ` angle = (90 * acc.x) + 90;`
+    `obniz.onconnect = async () => {
+        //6軸センサの呼び出し
+        await obniz.setupIMUWait();
+        //サーボモータの呼び出し
+        const servo = obniz.wired("ServoMotor", {signal:26})\n
+        //加速度の取得
+        const acc = await obniz.imu.getAccelWait();
+        //角度の計算
+        angle = (90 * acc.x) + 90;
+    }`
 );
 
 9
 00:02:06,000 -> 00:02:09,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 const value = doc.getValue();
 doc.setValue(
-  value + '\n' +  ` servo.angle(angle);`
+    `obniz.onconnect = async () => {
+        //6軸センサの呼び出し
+        await obniz.setupIMUWait();
+        //サーボモータの呼び出し
+        const servo = obniz.wired("ServoMotor", {signal:26})\n
+        //加速度の取得
+        const acc = await obniz.imu.getAccelWait();
+        //角度の計算
+        angle = (90 * acc.x) + 90;
+        servo.angle(angle);
+    }`
 );
 
 10
 00:02:13,000 -> 00:02:16,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 const value = doc.getValue();
 doc.setValue(
@@ -183,126 +233,163 @@ accInterval = setInterval(async () => {
 deleteMe(["video", "panel_area", "console-container", "video-summary"]);
 
 12
-00:02:40,000 -> 00:02:43,000
-clearInterval(accInterval);
-doHighlight("video");
+00:02:38,000 -> 00:02:38,500
+indexf = 12;
+doOnce[index] = true;
+doHighlight(["video-summary", "console-container"]);
+document.getElementById("video-title").innerText = `実際に手元のデバイスを動かして加速度センサの動きを感じてみてください.\n確認が終わったらデバイスのM5という文字が書かれたボタンを押してください`;
+player.pauseVideo();
 
 13
+00:02:40,000 -> 00:02:43,000
+clearInterval(accInterval);
+document.getElementById("video-title").innerText = ``;
+doHighlight("video");
+
+14
 00:04:00,000 -> 00:04:03,000
 doHighlight("panel_area");
 
-14
-00:04:04,000 -> 00:04:07,000
-const doc = editor0.getDoc();
-doc.setValue(
-  `const getAngleByGyro = async () => {
-        const gyro = await obniz.imu.getGyroWait();
-    }\n
-    setInterval(async () => {
-       	await getAngleByGyro();
-        servo.angle(angle);
-    }, 10);
-}`
-);
-
 15
-00:04:08,000 -> 00:04:11,000
+00:04:04,000 -> 00:04:07,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 doc.setValue(
-  `const getAngleByGyro = async () => {
-        const gyro = await obniz.imu.getGyroWait();
-		const followTime = new Date();
-    }\n
-    setInterval(async () => {
-       	await getAngleByGyro();
-        servo.angle(angle);
-    }, 10);
-}`
+  `// ジャイロセンサから角度を計算する関数
+const getAngleByGyro = async () => {
+    //角速度の取得
+    const gyro = await obniz.imu.getGyroWait();
+}\n
+//10msごとに実行用
+setInterval(async () => {
+   	await getAngleByGyro();
+    servo.angle(angle);
+}, 10);`
 );
 
 16
-00:04:17,000 -> 00:04:20,000
+00:04:08,000 -> 00:04:11,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 doc.setValue(
-  `const getAngleByGyro = async () => {
-        const gyro = await obniz.imu.getGyroWait();
-		const followTime = new Date();
-		angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
-    }\n
-    setInterval(async () => {
-       	await getAngleByGyro();
-        servo.angle(angle);
-    }, 10);
-}`
+    `// ジャイロセンサから角度を計算する関数
+const getAngleByGyro = async () => {
+    //角速度の取得
+    const gyro = await obniz.imu.getGyroWait();
+    //現在の時刻を取得
+    const followTime = new Date();
+}\n
+//10msごとに実行用
+setInterval(async () => {
+    await getAngleByGyro();
+    servo.angle(angle);
+}, 10);`
 );
 
 17
-00:04:49,000 -> 00:04:52,000
+00:04:17,000 -> 00:04:20,000
+doHighlight("panel_area");
 const doc = editor0.getDoc();
 doc.setValue(
-  `const getAngleByGyro = async () => {
-        const gyro = await obniz.imu.getGyroWait();
-		const followTime = new Date();
-		angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
-	preTime = followTime;
-	preGyro = gyro;
-    }\n
-    setInterval(async () => {
-       	await getAngleByGyro();
-        servo.angle(angle);
-    }, 10);
-}`
+    `// ジャイロセンサから角度を計算する関数
+const getAngleByGyro = async () => {
+    //角速度の取得
+    const gyro = await obniz.imu.getGyroWait();
+    //現在の時刻を取得
+    const followTime = new Date();
+    //角度計算
+    angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
+}\n
+//10msごとに実行用
+setInterval(async () => {
+    await getAngleByGyro();
+    servo.angle(angle);
+}, 10);`
 );
 
 18
-00:05:04,000 -> 00:05:47,000
-doHighlight("video");
-preTime = new Date();
-preGyro = obniz.imu.getGyroWait().then(() => {
-    angle = 90;
-    vars.btnAfunc[index] = () => {
-        angle = 90;
-    }
-    gyroInterval = setInterval(async () => {
-        const gyro = await obniz.imu.getGyroWait();
-        const followTime = new Date();
-        angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
-        servo.angle(angle);
-        preTime = followTime;
-        preGyro = gyro;
-    }, 10);
-});
+00:04:49,000 -> 00:04:52,000
+doHighlight("panel_area");
+const doc = editor0.getDoc();
+doc.setValue(
+    `// ジャイロセンサから角度を計算する関数
+const getAngleByGyro = async () => {
+    //角速度の取得
+    const gyro = await obniz.imu.getGyroWait();
+    //現在の時刻を取得
+    const followTime = new Date();
+    //角度計算
+    angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
+    //値の更新
+    preTime = followTime;
+    preGyro = gyro;
+}\n
+//10msごとに実行用
+setInterval(async () => {
+    await getAngleByGyro();
+    servo.angle(angle);
+}, 10);`
+);
 
 19
-00:05:48,000 -> 00:05:48,500
-clearInterval(gyroInterval);
-doHighlight("panel_area");
+00:05:04,000 -> 00:05:47,000
+doHighlight(["video"]);
+// preTime = new Date();
+// preGyro = obniz.imu.getGyroWait().then(() => {
+//     angle = 90;
+//     servo.angle(angle);
+//     vars.btnAfunc[index] = () => {
+//         angle = 90;
+//     }
+//     gyroInterval = setInterval(async () => {
+//         const gyro = await obniz.imu.getGyroWait();
+//         const followTime = new Date();
+//         singleLog(`gyrox: ${gyro.x}\ngyroy: ${gyro.y}\ngyroz: ${gyro.z}`);
+//         angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
+//         servo.angle(angle);
+//         preTime = followTime;
+//         preGyro = gyro;
+//     }, 100);
+// });
 
 20
+00:05:48,000 -> 00:05:48,500
+// clearInterval(gyroInterval);
+doHighlight("panel_area");
+
+21
 00:05:49,000 -> 00:05:49,000
 const doc = editor0.getDoc();
 doc.setValue(
-  `const getAngleByGyro = async () => {
-        const gyro = await obniz.imu.getGyroWait();
-        const followTime = new Date();
-        if(Math.abs(gyro.z) > 10) {
-            angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
-        }
-	preTime = followTime;
-	preGyro = gyro;
-    }\n
-    setInterval(async () => {
-       	await getAngleByGyro();
-        servo.angle(angle);
-    }, 10);
-}`
+    `// ジャイロセンサから角度を計算する関数
+const getAngleByGyro = async () => {
+    //角速度の取得
+    const gyro = await obniz.imu.getGyroWait();
+    //現在の時刻を取得
+    const followTime = new Date();
+    //誤差判定
+    if(Math.abs(gyro.z) > 10) {
+        //角度計算
+        angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
+    }
+    //値の更新
+    preTime = followTime;
+    preGyro = gyro;
+}\n
+//10msごとに実行用
+setInterval(async () => {
+    await getAngleByGyro();
+    servo.angle(angle);
+}, 10);`
 );
 
-21
-00:06:00,000
-doHighlight("video");
+22
+00:06:00,000 -> 00:06:12,000
+indexf=22;
+doHighlight(["video", "console-container"]);
 preTime = new Date();
-preGyro = obniz.imu.getGyroWait().then(() => {
+obniz.imu.getGyroWait().then((g) => {
+    preGyro = g;
     angle = 90;
     vars.btnAfunc[index] = () => {
         angle = 90;
@@ -310,11 +397,37 @@ preGyro = obniz.imu.getGyroWait().then(() => {
     gyroInterval = setInterval(async () => {
         const gyro = await obniz.imu.getGyroWait();
         const followTime = new Date();
+        singleLog(`gyrox: ${gyro.x}\ngyroy: ${gyro.y}\ngyroz: ${gyro.z}`)
         if(Math.abs(gyro.z) > 10) {
             angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
         }
         servo.angle(angle);
         preTime = followTime;
         preGyro = gyro;
-    }, 10);
+    }, 100);
+});
+
+23
+00:06:13,000
+indexf=23;
+doHighlight(["video-summary", "console-container"]);
+document.getElementById("video-title").innerText = `実際に手元のデバイスを触って，動作を確かめてみてください\nサーボが真ん中に戻らなくなった場合，デバイスのM5ボタンを押してください.`;
+preTime = new Date();
+obniz.imu.getGyroWait().then((g) => {
+    preGyro = g;
+    angle = 90;
+    vars.btnAfunc[index] = () => {
+        angle = 90;
+    }
+    gyroInterval = setInterval(async () => {
+        const gyro = await obniz.imu.getGyroWait();
+        const followTime = new Date();
+        singleLog(`gyrox: ${gyro.x}\ngyroy: ${gyro.y}\ngyroz: ${gyro.z}`)
+        if(Math.abs(gyro.z) > 10) {
+            angle += ((preGyro.z + gyro.z) * ((followTime.getTime() - preTime.getTime()) / 1000)) / 2;
+        }
+        servo.angle(angle);
+        preTime = followTime;
+        preGyro = gyro;
+    }, 100);
 });

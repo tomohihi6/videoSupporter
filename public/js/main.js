@@ -389,6 +389,20 @@ function addHlText(highlightContentsNum) {
         }
     }
     const highlightTexts = checkHighlightContent(highlightContentsNum);
+    addToEditor(highlightTexts);
+}
+
+function addEditorText() {
+    const editorTexts = 
+    "const doc = editor0.getDoc();\n" +
+    "const currentValue = doc.getValue();\n" +
+    "doc.setValue(\n" + 
+    "   currentValue + `//出力したい文字列`\n" +
+    ");";
+    addToEditor(editorTexts);
+}
+
+function addToEditor(text) {
     const editorDoc = editor2.getDoc();
     const cursor = editorDoc.getCursor();
     const line = editorDoc.getLine(cursor.line);
@@ -396,8 +410,7 @@ function addHlText(highlightContentsNum) {
         line: cursor.line,
         ch: line.length - 1,
     }
-    const returnTexts = highlightTexts;
-    editorDoc.replaceRange(returnTexts, pos);
+    editorDoc.replaceRange(text, pos);
 }
 
 function openModal() {
@@ -472,6 +485,86 @@ function checkWhatFocus() {
             }
         }  
     }  
+}
+
+function loadEditData() {
+    const reviveScriptItems = (text, left, width) => {
+        const scriptItemConteiner = document.createElement('div');
+        scriptItemConteiner.setAttribute('class', 'scriptItemContainer ui-selectee');
+        scriptItemConteiner.style.position = 'absolute';
+        scriptItemConteiner.style.left =  left;
+        scriptItemConteiner.style.top = '50px';
+        scriptItemConteiner.style.width = width;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.setAttribute('class', 'scriptItemButton');
+        deleteButton.style.width = scriptItemInitWidth - 25 + "px";
+        deleteButton.style.height = "20px";
+        deleteButton.innerHTML = "×";
+        deleteButton.onclick = function() {
+            $(this).parent().remove();
+        }
+
+        const scriptItem = document.createElement('div');
+        scriptItem.setAttribute('class', 'scriptItem');
+        scriptItem.textContent =  text;
+        scriptItemConteiner.ondblclick = function() {
+            editSrt(scriptItem);
+            $(this).resizable('destroy');
+            setResize();
+        }
+
+        scriptItemConteiner.appendChild(deleteButton);
+        scriptItemConteiner.appendChild(scriptItem);
+        return scriptItemConteiner;
+    }
+
+    const texts = localStorage.getItem(`${videoId}_texts`).split("END_OF_ARRAY");
+    const lefts = localStorage.getItem(`${videoId}_lefts`).split("END_OF_ARRAY");
+    const widths = localStorage.getItem(`${videoId}_widths`).split("END_OF_ARRAY");
+    if(texts && lefts && widths) {
+        const ruler = document.getElementById('timeline-header-ruler');
+        texts.forEach((e, i) => {
+            if(i < texts.length - 1) {
+                const scriptItem = reviveScriptItems(e, lefts[i], widths[i]);
+                ruler.appendChild(scriptItem);
+                setDrag();
+                setResize();
+            }
+        })
+    } else {
+        console.error("データのロードに失敗したか，データが存在しません");
+        return null;
+    }
+
+}
+
+function saveEditData() {
+    let scriptItemContainers = document.getElementsByClassName('scriptItemContainer');
+    // スクリプト記録用変数
+    let texts = '';
+    let lefts = '';
+    let widths = '';
+    // このままだとHTMLCollectionとなって配列として扱うことができないので，配列に変換
+    scriptItemContainers = Array.from( scriptItemContainers ) ;
+    // 中身の再生時間が短い順にソート
+    scriptItemContainers.sort(function(a, b) {
+        //要素のleftを取ってきてソート用に比較 pxの文字が邪魔なので取り除いてから数値に変換
+        const rectA = Number(a.style.left.replace('px', ''));
+        const rectB = Number(b.style.left.replace('px', ''));
+        if(rectA < rectB) return -1;
+        else if(rectA > rectB) return 1;
+        return 0;
+    });
+    scriptItemContainers.forEach((e) => {
+        texts += e.childNodes[1].textContent + "END_OF_ARRAY";
+        lefts += e.style.left + "END_OF_ARRAY";
+        widths += e.style.width + "END_OF_ARRAY";
+    })
+    localStorage.setItem(`${videoId}_texts`, texts)
+    localStorage.setItem(`${videoId}_lefts`, lefts);
+    localStorage.setItem(`${videoId}_widths`, widths);
+    return null;
 }
 
 function openHelpModal() {

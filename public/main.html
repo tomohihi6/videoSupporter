@@ -55,14 +55,16 @@
             <button class="search-btn" onclick="accessNewVideo()"><i class="material-icons">search</i></button>
         </div>
         <div id="header-title">
-            編集ソフト
+            
         </div>
         <div id="file-buttons">
             <input type="file" id="input-file" />
-            <label for="input-file" class="fileButton" style="margin-right: 3vw">ファイルを読み込む</label>
-            <button onclick="confirmSaveScript()" class="fileButton">ファイルを書き出す</button>
+            <label for="input-file" class="fileButton" style="margin-right: 1vw">コードを開く</label>
+
+            <button onclick="saveEditData()" class="fileButton" style="margin-right: 1vw">一時保存</button>
+            <button onclick="confirmSaveScript()" class="fileButton" style="margin-right: 1vw">アップロード</button>
         </div>
-        <i onclick="openHelpModal()" class="material-icons help-button" title="チュートリアル">help_outline</i>
+        <!-- <i onclick="openHelpModal()" class="material-icons help-button" title="チュートリアル">help_outline</i> -->
     </header>
 
 <div id="main">
@@ -91,14 +93,14 @@
 
                     <div id="panel1">
                         <div class="panel-bar">
-                            <div class="panelTitle">元ソース</div>
+                            <div class="panelTitle">オリジナル</div>
                         </div>  
                         <textarea id="copy-source-area"></textarea>
                     </div>
 
                     <div id="panel2">
                         <div class="panel-bar">
-                            <div class="panelTitle">タイムライン編集</div>
+                            <div class="panelTitle">タイムライン</div>
                             <div class="highlight-btn-wrapper">
                                 <i onclick="addEditorText()" style="display: inline-flex;" class="material-icons highlight-btn" title="エディタ出力">post_add</i>
                                 <i onclick="addHlText('0')" style="display: inline-flex;" class="material-icons highlight-btn" title="動画ハイライト">ondemand_video</i>
@@ -129,6 +131,7 @@
 <script>
     window.onload = function() {
         const videoContainer = document.getElementById('video-container');
+        loadEditData();
     }
 
     const canvas = document.getElementById("canvas");
